@@ -1,12 +1,10 @@
 ------------------------------------------------------------------------
-This is the project README file. Here, you should describe your project.
-Tell the reader (someone who does not know anything about this project)
-all he/she needs to know. The comments should usually include at least:
+Final project for csci2251.Software designed to help a real estate company manage properties
 ------------------------------------------------------------------------
 
-PROJECT TITLE:
-PURPOSE OF PROJECT:
+PROJECT TITLE: RentalPropertyManagement
+PURPOSE OF PROJECT: Final Project 
 VERSION or DATE:
 HOW TO START THIS PROJECT:
-AUTHORS:
+AUTHORS:Marcus Trujillo, Douglas Ubeda, Tatiana Nassiri, David Pope
 USER INSTRUCTIONS:

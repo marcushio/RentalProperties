@@ -1,0 +1,10 @@
+# ignore BlueJ package 
+package.bluej
+# compiled class files 
+*.class
+# log files 
+*.log
+# BlueJ files 
+*.ctxt
+#VM Crash log
+hs_err_pid*

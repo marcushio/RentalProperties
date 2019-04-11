@@ -9,4 +9,4 @@ S SABQ199  M 3   "garage"
 S SABQ108  M 3   "barn, yard"
 V VABQ122  W 1    "apt,tennis court, pool"
 V VABQ150  M 2   "house, front yard, pool"
-//I am planning to add if property is available or not, terms (when payment is due), etc.
+//I am planning to add fields: if property is available, when payment is due, and rental charges

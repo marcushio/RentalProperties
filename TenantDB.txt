@@ -1,0 +1,10 @@
+Tenant DataBase 
+
+
+ID,Last Name,First Name,Phone Number,Properties Rented
+
+1,Jones,Tim,505-505-5555,2
+2,Smith,Allen,505-222-3345,1
+3,Black,Pat,505-555-5698,1
+4,Shaw,Ben,505-123-7545,3
+ 

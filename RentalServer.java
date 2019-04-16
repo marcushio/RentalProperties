@@ -45,7 +45,6 @@ public class RentalServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//out.write(response.getBytes("UTF-8"));
 			
 		} catch (IOException ex) {
 			System.out.println("Unable to get streams from client");

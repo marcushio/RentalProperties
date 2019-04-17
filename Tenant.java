@@ -6,17 +6,17 @@ public class Tenant implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -7521390664523300588L;
+	private String idNumber;
 	private String firstName;
 	private String lastName;
-	private String idNumber;
 	private String cellphone;
 	private String rentalPaid;
 	private String email;
 	
-	public Tenant(String firstName, String lastName, String idNumber, String cellphone, String rentalPaid, String email) {
+	public Tenant(String idNumber, String firstName, String lastName, String cellphone, String rentalPaid, String email) {
+		this.setIdNumber(idNumber);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
-		this.setIdNumber(idNumber);
 		this.setCellphone(cellphone);
 		this.setRentalPaid(rentalPaid);
 		this.setEmail(email);

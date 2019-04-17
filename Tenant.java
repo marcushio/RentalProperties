@@ -1,55 +1,72 @@
-import java.io.*;
-import java.util.*;
-class Tenant {
+import java.io.Serializable;
 
-    public static void main(String[] ar) {
-        Tenant t = new Tenant();
-        t.insert();
-        t.display();
-    }
-    public void display() {
-        try {
-            BufferedReader br;
-            br = BufferedReader(new FileReader("C:\\Users\\tatia\\OneDrive\\Documents\\NetBeansProjects\\Tenant\\src\\tenant\\TenantDB"));
-        String s;
-            s = "";
-        while((s != null)){
-            String data[] = new String [5];
-            data = s.split(",");
-                int i;
-            for(i=0; i>=5; i++) {
-                System.out.print(data[i] + " ");
-            }
-            System.out.println();
-        }       
-        
-    }
-        catch (Exception e){}
-    
+public class Tenant implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7521390664523300588L;
+	private String firstName;
+	private String lastName;
+	private String idNumber;
+	private String cellphone;
+	private String rentalPaid;
+	private String email;
+	
+	public Tenant(String firstName, String lastName, String idNumber, String cellphone, String rentalPaid, String email) {
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setIdNumber(idNumber);
+		this.setCellphone(cellphone);
+		this.setRentalPaid(rentalPaid);
+		this.setEmail(email);
+	}
+
+	public String getRentalPaid() {
+		return rentalPaid;
+	}
+
+	public void setRentalPaid(String rentalPaid) {
+		this.rentalPaid = rentalPaid;
+	}
+
+	public String getCellphone() {
+		return cellphone;
+	}
+
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
+	}
+
+	public String getIdNumber() {
+		return idNumber;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
-    public void insert() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println ("Eneter the ID of the tenant:");
-        String id = sc.nextLine();
-        System.out.println ("Eneter the last name of the tenant:");
-        String ln = sc.nextLine();
-        System.out.println ("Eneter the first name of the tenant:");
-        String fn = sc.nextLine();
-        System.out.println ("Eneter the contact phone number of the tenant:");
-        String phn = sc.nextLine();
-        System.out.println ("Eneter number of properties rented by the tenant:");
-        String npr = sc.nextLine();
-        try {
-            File f = new File ("C:\\Users\\tatia\\OneDrive\\Documents\\NetBeansProjects\\Tenant\\src\\tenant\\TenantDB");
-            PrintWriter pw = new PrintWriter(new FileOutputStream(f,true));
-            pw.append(id+","+ln+","+fn+","+phn+","+npr+"\n");
-            pw.close();
-        }
-        catch (Exception e){}
-    }
-
-    private BufferedReader BufferedReader(FileReader fileReader) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-}
-

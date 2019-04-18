@@ -16,6 +16,8 @@ public class HomeFrame extends JFrame {
     public HomeFrame(){
         //create and add components to our tabs
         tabs = new JTabbedPane();
+        tenantsFrame = new TenantsFrame();
+        propertiesFrame = new PropertiesFrame();
         tabs.addTab("Tenants", tenantsFrame );
         tabs.addTab("Properties", propertiesFrame);
         add(tabs);

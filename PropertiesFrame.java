@@ -49,9 +49,9 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
 
     public final void selectional() {
         try {
-            con = DriverManager.getConnection("jdbc:derby://localhost:1527/RentalDataBase", "Rentals", "Rentals");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentaldata", "root", "Aurelius11!");
             st = con.createStatement();
-            rs = st.executeQuery("select * from Rentals.Properties");
+            rs = st.executeQuery("select * from Rentaldata.properties");
             PropertiesTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
 
@@ -284,7 +284,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             String PhoneNumber = PNTxt.getText();
             String RentPaid = RPTxt.getText();
             String Email = ETxt.getText();
-            PreparedStatement add = con.prepareStatement("insert Into Rentals.Tenant values (?,?,?,?,?,?)");
+            PreparedStatement add = con.prepareStatement("insert Into Rentaldata.properties values (?,?,?,?,?,?)");
             add.setString(1, ID);
             add.setString(2, LastName);
             add.setString(3, FirstName);
@@ -410,20 +410,20 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(oldGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PropertiesFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(oldGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PropertiesFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(oldGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PropertiesFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(oldGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PropertiesFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new oldGUI().setVisible(true);
+                new PropertiesFrame().setVisible(true);
             }
         });
 

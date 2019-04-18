@@ -16,9 +16,9 @@ CREATE TABLE "TENANT" (
     "EMAIL" VARCHAR(60),
 );
 
-INSERT INTO RENTALS.TENANT (ID, LASTNAME, FIRSTNAME, PHONENUMBER, RENTPAID, EMAIL)
+INSERT INTO rentaldata.tenants (ID, LASTNAME, FIRSTNAME, PHONENUMBER, RENTPAID, EMAIL)
 	VALUES (3, 'Smith', 'Jack', '505-258-9856', 1, '2019-04-01', 'j.smith@gmail.com')
-INSERT INTO RENTALS.TENANT (ID, LASTNAME, FIRSTNAME, PHONENUMBER, RENTPAID, EMAIL)
+INSERT INTO rentaldata.tenants (ID, LASTNAME, FIRSTNAME, PHONENUMBER, RENTPAID, EMAIL)
 	VALUES (10, 'Collins', 'Merry', '505-254-7878', '2019-04-01', 'm.collins@gmail.com')
 */
 
@@ -49,9 +49,9 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
     public final void selectional() {
         try {
-            con = DriverManager.getConnection("jdbc:derby://localhost:1527/RentalDataBase", "Rentals", "Rentals");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentaldata", "root", "Aurelius11!");
             st = con.createStatement();
-            rs = st.executeQuery("select * from Rentals.Tenant");
+            rs = st.executeQuery("select * from Rentaldata.tenants");
             Tenants2.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
 
@@ -287,7 +287,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
             String PhoneNumber = PNTxt.getText();
             String RentPaid = RPTxt.getText();
             String Email = ETxt.getText();
-            PreparedStatement add = con.prepareStatement("insert Into Rentals.Tenant values (?,?,?,?,?,?)");
+            PreparedStatement add = con.prepareStatement("insert Into rentaldata.Tenants values (?,?,?,?,?,?)");
             add.setString(1, ID);
             add.setString(2, LastName);
             add.setString(3, FirstName);
@@ -313,7 +313,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
-            String sql = "Delete from Rentals.Tenant where id = " + IDTxt.getText();
+            String sql = "Delete from rentaldata.tenants where id = " + IDTxt.getText();
             Statement add = con.createStatement();
             add.executeUpdate(sql);
             IDTxt.setText("");
@@ -353,7 +353,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
         try {
 
-            String sql = "update Rentals.Tenant set ID = " +IDTxt.getText()+" ,LastName = '"+LNTxt.getText()+"' ,FirstName = '"+FNTxt.getText()+"' ,PhoneNumber ="
+            String sql = "update rentaldata.tenants set ID = " +IDTxt.getText()+" ,LastName = '"+LNTxt.getText()+"' ,FirstName = '"+FNTxt.getText()+"' ,PhoneNumber ="
                     + " '"+PNTxt.getText()+"',RentPaid = '"+RPTxt.getText()+"',Email = '"+ETxt.getText()+"' where ID = "+IDTxt.getText()+"";
             Statement update = con.createStatement();
             update.executeUpdate(sql);
@@ -375,7 +375,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
     private void SFTxtKeyReleased(java.awt.event.KeyEvent evt) {
         try {
 
-            String query = "select * from Rentals.Tenant where LastName =? ";
+            String query = "select * from rentaldata.tenants where LastName =? ";
             PreparedStatement search = con.prepareStatement (query);
             search.setString(1, SFTxt.getText());
             ResultSet rs = search.executeQuery();
@@ -415,20 +415,20 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(oldGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TenantsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(oldGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TenantsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(oldGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TenantsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(oldGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TenantsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new oldGUI().setVisible(true);
+                new TenantsFrame().setVisible(true);
             }
         });
 

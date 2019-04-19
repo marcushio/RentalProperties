@@ -110,8 +110,8 @@ public class DbUtils {
 		String cellphone = tenant.getCellphone();
 		String rentalPaid = tenant.getRentalPaid();
 		String email = tenant.getEmail();
-
 	}
+
     /**
      * @param args
 

@@ -273,7 +273,11 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
                                                                         .addComponent(rentTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addComponent(rentLabel))
                                                                 .addGap(18, 18, 18)
+<<<<<<< HEAD
 
+=======
+                                                                
+>>>>>>> 5bc4b4979055b9b474a838bb45bed572b88ad2bb
 
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
@@ -299,7 +303,9 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             String additionalInfo = additionalInfoTxt.getText();
             String rent = rentTxt.getText();
 
+
             PreparedStatement add = con.prepareStatement("insert Into Rentaldata.properties values (?,?,?,?,?,?)"); //we'll have to add space for other cols
+
             add.setString(1, ID);
             add.setString(2, address);
             add.setString(3, numBedrooms);

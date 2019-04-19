@@ -71,20 +71,42 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         button_delete = new javax.swing.JButton();
         button_update = new javax.swing.JButton();
         IDTxt = new javax.swing.JTextField();
-        FNTxt = new javax.swing.JTextField();
-        PNTxt = new javax.swing.JTextField();
-        RPTxt = new javax.swing.JTextField();
-        LNtxt = new javax.swing.JLabel();
-        FNtxt = new javax.swing.JLabel();
-        PNtxt = new javax.swing.JLabel();
-        RPtxt = new javax.swing.JLabel();
-        LNTxt = new javax.swing.JTextField();
+        bathroomTxt = new javax.swing.JTextField();
+        additionalInfoTxt = new javax.swing.JTextField();
+        rentTxt = new javax.swing.JTextField();
+        addressLabel = new javax.swing.JLabel();
+        bathroomLabel = new javax.swing.JLabel();
+        additionalInfoLabel = new javax.swing.JLabel();
+        rentLabel = new javax.swing.JLabel();
+        addressTxt = new javax.swing.JTextField();
         SFtxt = new javax.swing.JLabel();
-        IDtxt = new javax.swing.JLabel();
+        idLabel = new javax.swing.JLabel();
         SFTxt = new javax.swing.JTextField();
-        ETxt = new javax.swing.JTextField();
-        Etxt = new javax.swing.JLabel();
+        bedroomsTxt = new javax.swing.JTextField();
+        bedroomsLabel = new javax.swing.JLabel();
+        termsTxt = new javax.swing.JTextField();
+        termsLabel = new javax.swing.JLabel();
+        availTxt = new javax.swing.JTextField();
+        availLabel = new javax.swing.JLabel();
+        availDateTxt = new javax.swing.JTextField();
+        availDateLabel = new javax.swing.JLabel();
+        tenantIDTxt = new javax.swing.JTextField();
+        tenantIDLabel = new javax.swing.JLabel();
         jButtonExit = new javax.swing.JButton();
+
+        idLabel.setText("Property ID");
+        addressLabel.setText("Address");
+        bathroomLabel.setText("Bathrooms");
+        additionalInfoLabel.setText("Additional Info");
+        rentLabel.setText("Rent");
+        termsLabel.setText("Terms");
+        availLabel.setText("Available");
+        availDateLabel.setText("Available Date");
+        tenantIDLabel.setText("Tenant ID");
+        idLabel.setText("ID");
+        bedroomsLabel.setText("Bedrooms");
+        jButtonExit.setText("Exit");
+
 
         jTextField1.setText("jTextField1");
 
@@ -130,29 +152,21 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        RPTxt.addActionListener(new java.awt.event.ActionListener() {
+        rentTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RPTxtActionPerformed(evt);
+                rentTxtActionPerformed(evt);
             }
         });
 
-        LNtxt.setText("LastName");
-
-        FNtxt.setText("FirstName");
-
-        PNtxt.setText("PhoneNumber");
-
-        RPtxt.setText("RentPaid");
-
-        LNTxt.addActionListener(new java.awt.event.ActionListener() {
+        addressTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LNTxtActionPerformed(evt);
+                addressTxtActionPerformed(evt);
             }
         });
 
-        SFtxt.setText("Search Tenant");
+        SFtxt.setText("Search Properties");
 
-        IDtxt.setText("ID");
+
 
         SFTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,15 +179,12 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        ETxt.addActionListener(new java.awt.event.ActionListener() {
+        bedroomsTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ETxtActionPerformed(evt);
+                bedroomsTxtActionPerformed(evt);
             }
         });
 
-        Etxt.setText("Email");
-
-        jButtonExit.setText("Exit");
         jButtonExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonExitActionPerformed(evt);
@@ -194,20 +205,20 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
                                         .addComponent(button_update))
                                 .addGap(38, 38, 38)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(FNtxt)
-                                        .addComponent(PNtxt)
-                                        .addComponent(RPtxt)
-                                        .addComponent(IDtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(LNtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Etxt))
+                                        .addComponent(bathroomLabel)
+                                        .addComponent(additionalInfoLabel)
+                                        .addComponent(rentLabel)
+                                        .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bedroomsLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(IDTxt)
-                                        .addComponent(FNTxt)
-                                        .addComponent(PNTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                        .addComponent(LNTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                        .addComponent(RPTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                        .addComponent(ETxt))
+                                        .addComponent(bathroomTxt)
+                                        .addComponent(additionalInfoTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                                        .addComponent(addressTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                                        .addComponent(rentTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                                        .addComponent(bedroomsTxt))
                                 .addContainerGap())
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
@@ -228,12 +239,13 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(IDTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(IDtxt))
+                                                        .addComponent(idLabel))
                                                 .addGap(18, 18, 18)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(LNtxt)
-                                                                .addComponent(LNTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(addressLabel)
+                                                                .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+
                                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                                 .addComponent(button_add)
                                                                 .addGap(14, 14, 14)))
@@ -246,21 +258,23 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
                                                                 .addGap(0, 0, Short.MAX_VALUE))
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(FNTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(FNtxt))
-                                                                .addGap(18, 18, 18)
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(PNTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(PNtxt))
-                                                                .addGap(18, 18, 18)
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(RPTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(RPtxt))
+                                                                        .addComponent(bathroomTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(bathroomLabel))
                                                                 .addGap(18, 18, 18)
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(Etxt)
-                                                                        .addComponent(ETxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                        .addComponent(bedroomsLabel)
+                                                                        .addComponent(bedroomsTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(additionalInfoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(additionalInfoLabel))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(rentTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(rentLabel))
+                                                                .addGap(18, 18, 18)
+
+
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
                                                 .addGap(6, 6, 6)))
@@ -279,18 +293,23 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
 
         try {
             String ID = IDTxt.getText();
-            String LastName = LNTxt.getText();
-            String FirstName = FNTxt.getText();
-            String PhoneNumber = PNTxt.getText();
-            String RentPaid = RPTxt.getText();
-            String Email = ETxt.getText();
-            PreparedStatement add = con.prepareStatement("insert Into Rentaldata.properties values (?,?,?,?,?,?)");
+            String address = addressTxt.getText();
+            String numBedrooms = bedroomsTxt.getText();
+            String numBaths = bathroomTxt.getText();
+            String additionalInfo = additionalInfoTxt.getText();
+            String rent = rentTxt.getText();
+
+            PreparedStatement add = con.prepareStatement("insert Into Rentaldata.properties values (?,?,?,?,?,?)"); //we'll have to add space for other cols
             add.setString(1, ID);
-            add.setString(2, LastName);
-            add.setString(3, FirstName);
-            add.setString(4, PhoneNumber);
-            add.setString(5, RentPaid);
-            add.setString(6, Email);
+            add.setString(2, address);
+            add.setString(3, numBedrooms);
+            add.setString(4, numBaths);
+            add.setString(5, additionalInfo);
+            add.setString(6, rent);
+            //add.setString(7, terms);
+            //add.setString(8, avail);
+            //add.setString(9, availableDate);
+            //add.setString(10, tenantID);
             int row = add.executeUpdate();
 
         } catch (SQLException E) {
@@ -303,22 +322,22 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }
 
-    private void LNTxtActionPerformed(java.awt.event.ActionEvent evt) {
+    private void addressTxtActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
     private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
-            String sql = "Delete from Rentals.Tenant where id = " + IDTxt.getText();
+            String sql = "Delete from Rentaldata.properties where id = " + IDTxt.getText();
             Statement add = con.createStatement();
             add.executeUpdate(sql);
             IDTxt.setText("");
-            LNTxt.setText("");
-            FNTxt.setText("");
-            PNTxt.setText("");
-            RPTxt.setText("");
-            ETxt.setText("");
+            addressTxt.setText("");
+            bathroomTxt.setText("");
+            additionalInfoTxt.setText("");
+            rentTxt.setText("");
+            bedroomsTxt.setText("");
 
         } catch (SQLException E) {
             E.printStackTrace();
@@ -328,11 +347,11 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
 
     private void button_updateActionPerformed(java.awt.event.ActionEvent evt) {
       /*  String ID = IDTxt.getText();
-        String last = LNTxt.getText();
-        String first = FNTxt.getText();
-        String phone = PNTxt.getText();
+        String last = addressTxt.getText();
+        String first = bathroomTxt.getText();
+        String phone = additionalInfoTxt.getText();
         String Prop = PRTxt.getText();
-        String date = RPTxt.getText();
+        String date = rentTxt.getText();
 
         int newID = Integer.parseInt(ID);
         int newProp = Integer.parseInt(Prop);
@@ -347,11 +366,9 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             System.out.println(err.getMessage());
         }
     }*/
-
         try {
-
-            String sql = "update Rentals.Tenant set ID = " + IDTxt.getText() + " ,LastName = '" + LNTxt.getText() + "' ,FirstName = '" + FNTxt.getText() + "' ,PhoneNumber ="
-                    + " '" + PNTxt.getText() + "',RentPaid = '" + RPTxt.getText() + "',Email = '" + ETxt.getText() + "' where ID = " + IDTxt.getText() + "";
+            String sql = "update rentaldata.properties set ID = " + IDTxt.getText() + " ,Address = '" + addressTxt.getText() + "' ,bathrooms = '" + bathroomTxt.getText() + "' ,AdditionalInfo ="
+                    + " '" + additionalInfoTxt.getText() + "',Rent = '" + rentTxt.getText() + "',Bedrooms = '" + bedroomsTxt.getText() +  "' where ID = " + IDTxt.getText() + "";
             Statement update = con.createStatement();
             update.executeUpdate(sql);
         } catch (SQLException E) {
@@ -360,7 +377,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         selectional();
     }
 
-    private void RPTxtActionPerformed(java.awt.event.ActionEvent evt) {
+    private void rentTxtActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
@@ -385,7 +402,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         selectional();
     }
 
-    private void ETxtActionPerformed(java.awt.event.ActionEvent evt) {
+    private void bedroomsTxtActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
@@ -430,18 +447,26 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JTextField ETxt;
-    private javax.swing.JLabel Etxt;
-    private javax.swing.JTextField FNTxt;
-    private javax.swing.JLabel FNtxt;
+    private javax.swing.JTextField bedroomsTxt;
+    private javax.swing.JLabel bedroomsLabel;
+    private javax.swing.JTextField bathroomTxt;
+    private javax.swing.JLabel bathroomLabel;
     private javax.swing.JTextField IDTxt;
-    private javax.swing.JLabel IDtxt;
-    private javax.swing.JTextField LNTxt;
-    private javax.swing.JLabel LNtxt;
-    private javax.swing.JTextField PNTxt;
-    private javax.swing.JLabel PNtxt;
-    private javax.swing.JTextField RPTxt;
-    private javax.swing.JLabel RPtxt;
+    private javax.swing.JLabel idLabel;
+    private javax.swing.JTextField addressTxt;
+    private javax.swing.JLabel addressLabel;
+    private javax.swing.JTextField additionalInfoTxt;
+    private javax.swing.JLabel additionalInfoLabel;
+    private javax.swing.JTextField rentTxt;
+    private javax.swing.JLabel rentLabel;
+    private javax.swing.JTextField termsTxt;
+    private javax.swing.JLabel termsLabel;
+    private javax.swing.JTextField availTxt;
+    private javax.swing.JLabel availLabel;
+    private javax.swing.JTextField availDateTxt;
+    private javax.swing.JLabel availDateLabel;
+    private javax.swing.JTextField tenantIDTxt;
+    private javax.swing.JLabel tenantIDLabel;
     private javax.swing.JTextField SFTxt;
     private javax.swing.JLabel SFtxt;
     private javax.swing.JTable PropertiesTable;

@@ -103,7 +103,15 @@ public class DbUtils {
 	}
     }
 
+	public static TenantToResultSet(Tenant tenant){
+		String idNumber = tenant.getIdNumber();
+		String firstName = tenant.getFirstName();
+		String lastName= tenant.getLastName();
+		String cellphone = tenant.getCellphone();
+		String rentalPaid = tenant.getRentalPaid();
+		String email = tenant.getEmail();
 
+	}
     /**
      * @param args
 

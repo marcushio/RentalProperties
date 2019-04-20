@@ -99,7 +99,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
                         {null, null, null, null, null, null, null, null, null, null}
                 },
                 new String [] {
-                        "PropID", "Address", "Bed", "Bath", "AdditionalInfo", "RentAmount", "Terms", "Availability", "AvailDate", "Tenant_ID"
+                        "PropID", "Address", "Bed", "Bath", "AdditionalInfo", "RentAmount", "Terms", "Available", "AvailDate", "Tenant_ID"
                 }
         ));
         jScrollPane1.setViewportView(Properties2);
@@ -124,7 +124,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Terms");
 
-        jLabel9.setText("Availability");
+        jLabel9.setText("Available");
 
         jLabel10.setText("Tenant_ID");
 
@@ -500,8 +500,8 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             System.out.println(err.getMessage());
         }
         try {
-            String sql = "update rentaldata.properties set ID = '" + PropIDTxt.getText() +
-                         "' ,Address = '" + AddressTxt.getText() +
+            String sql = "update rentaldata.properties set ID = " + PropIDTxt.getText() +
+                         " ,Address = '" + AddressTxt.getText() +
                          "' ,Bedrooms = '" + BedTxt.getText() +
                          "' ,bathrooms = '" + BathTxt.getText() +
                          "' ,AdditionalInfo = '" + AdditionalTxt.getText() +
@@ -510,8 +510,8 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
                          "' ,Available  = '" + AvailabilityTxt.getText() +
                          "' , DateAvailable = '" + AvailDateTxt.getText() +
                          "' ,tenantID = '" + TenantIDTxt.getText() +
-                         "' where ID = '" + PropIDTxt.getText() + "'";
-            
+                         "' where ID = " + PropIDTxt.getText() + "";
+
             Statement update = con.createStatement();
             update.executeUpdate(sql);
         } catch (SQLException E) {

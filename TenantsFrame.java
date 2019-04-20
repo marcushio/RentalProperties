@@ -311,7 +311,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            String sql = "Delete from rentaldata.tenants where id = " + IDTxt.getText();
+            String sql = "Delete from rentaldata.tenants where id = '" + IDTxt.getText() + "'";
             Statement add = con.createStatement();
             add.executeUpdate(sql);
             IDTxt.setText("");
@@ -348,8 +348,8 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
             System.out.println(err.getMessage());
         }
         try {
-            String sql = "update rentaldata.tenants set ID = " + IDTxt.getText()+
-                         " ,LastName = '"+LNTxt.getText()+
+            String sql = "update rentaldata.tenants set ID = '" + IDTxt.getText()+
+                         "' ,LastName = '"+LNTxt.getText()+
                          "' ,FirstName = '"+FNTxt.getText()+
                          "' ,PhoneNumber =" + " '"+PNTxt.getText()+
                          "',RentPaid = '"+RPTxt.getText()+

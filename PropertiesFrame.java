@@ -52,142 +52,163 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentaldata", "root", "Aurelius11!");
             st = con.createStatement();
             rs = st.executeQuery("select * from Rentaldata.properties");
-            PropertiesTable.setModel(DbUtils.resultSetToTableModel(rs));
+            Properties2.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        PropertiesTable = new javax.swing.JTable();
-        button_add= new javax.swing.JButton();
-        button_delete = new javax.swing.JButton();
-        button_update = new javax.swing.JButton();
-        IDTxt = new javax.swing.JTextField();
-        bathroomTxt = new javax.swing.JTextField();
-        additionalInfoTxt = new javax.swing.JTextField();
-        rentTxt = new javax.swing.JTextField();
-        addressLabel = new javax.swing.JLabel();
-        bathroomLabel = new javax.swing.JLabel();
-        additionalInfoLabel = new javax.swing.JLabel();
-        rentLabel = new javax.swing.JLabel();
-        addressTxt = new javax.swing.JTextField();
-        SFtxt = new javax.swing.JLabel();
-        idLabel = new javax.swing.JLabel();
-        SFTxt = new javax.swing.JTextField();
-        bedroomsTxt = new javax.swing.JTextField();
-        bedroomsLabel = new javax.swing.JLabel();
-        termsTxt = new javax.swing.JTextField();
-        termsLabel = new javax.swing.JLabel();
-        availTxt = new javax.swing.JTextField();
-        availLabel = new javax.swing.JLabel();
-        availDateTxt = new javax.swing.JTextField();
-        availDateLabel = new javax.swing.JLabel();
-        tenantIDTxt = new javax.swing.JTextField();
-        tenantIDLabel = new javax.swing.JLabel();
-        jButtonExit = new javax.swing.JButton();
+        Properties2 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        PropIDTxt = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        AddressTxt = new javax.swing.JTextField();
+        BathTxt = new javax.swing.JTextField();
+        BedTxt = new javax.swing.JTextField();
+        AdditionalTxt = new javax.swing.JTextField();
+        RentAmountTxt = new javax.swing.JTextField();
+        TermsTxt = new javax.swing.JTextField();
+        AvailabilityTxt = new javax.swing.JTextField();
+        TenantIDTxt = new javax.swing.JTextField();
+        addButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        AvailDateTxt = new javax.swing.JTextField();
 
-        idLabel.setText("Property ID");
-        addressLabel.setText("Address");
-        bathroomLabel.setText("Bathrooms");
-        additionalInfoLabel.setText("Additional Info");
-        rentLabel.setText("Rent");
-        termsLabel.setText("Terms");
-        availLabel.setText("Available");
-        availDateLabel.setText("Available Date");
-        tenantIDLabel.setText("Tenant ID");
-        idLabel.setText("ID");
-        bedroomsLabel.setText("Bedrooms");
-        jButtonExit.setText("Exit");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField2");
-
-        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE); this was from when this
-        //was our primary Jframe.
-
-        PropertiesTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null}
+        Properties2.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                        {null, null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null, null}
                 },
-                new String[]{
-                        "ID", "Address", "Bedrooms", "Bathrooms", "Rent", "Terms", "Avail", "Date Avail", "Additional Info", "Tenant"
+                new String [] {
+                        "PropID", "Address", "Bed", "Bath", "AdditionalInfo", "RentAmount", "Terms", "Availability", "AvailDate", "Tenant_ID"
                 }
         ));
-        jScrollPane1.setViewportView(PropertiesTable);
-         button_add.setText("Add"); button_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {  button_addActionPerformed(evt);
-            }
-        });
+        jScrollPane1.setViewportView(Properties2);
 
-        button_delete.setText("Delete");
-        button_delete.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setText("Bed");
+
+        PropIDTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_deleteActionPerformed(evt);
+                PropIDTxtActionPerformed(evt);
             }
         });
 
-        button_update.setText("Update");
-        button_update.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setText("PropID");
+
+        jLabel4.setText("Address");
+
+        jLabel5.setText("Bath");
+
+        jLabel6.setText("AdditionalInfo");
+
+        jLabel7.setText("RentAmount");
+
+        jLabel8.setText("Terms");
+
+        jLabel9.setText("Availability");
+
+        jLabel10.setText("Tenant_ID");
+
+        AddressTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_updateActionPerformed(evt);
+                AddressTxtActionPerformed(evt);
             }
         });
 
-        IDTxt.addActionListener(new java.awt.event.ActionListener() {
+        BathTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IDTxtActionPerformed(evt);
+                BathTxtActionPerformed(evt);
             }
         });
 
-        rentTxt.addActionListener(new java.awt.event.ActionListener() {
+        BedTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentTxtActionPerformed(evt);
+                BedTxtActionPerformed(evt);
             }
         });
 
-        addressTxt.addActionListener(new java.awt.event.ActionListener() {
+        AdditionalTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addressTxtActionPerformed(evt);
+                AdditionalTxtActionPerformed(evt);
             }
         });
 
-        SFtxt.setText("Search Properties");
-
-
-
-        SFTxt.addActionListener(new java.awt.event.ActionListener() {
+        RentAmountTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SFTxtActionPerformed(evt);
-            }
-        });
-        SFTxt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                SFTxtKeyReleased(evt);
+                RentAmountTxtActionPerformed(evt);
             }
         });
 
-        bedroomsTxt.addActionListener(new java.awt.event.ActionListener() {
+        TermsTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bedroomsTxtActionPerformed(evt);
+                TermsTxtActionPerformed(evt);
             }
         });
 
-        jButtonExit.addActionListener(new java.awt.event.ActionListener() {
+        AvailabilityTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExitActionPerformed(evt);
+                AvailabilityTxtActionPerformed(evt);
+            }
+        });
+
+        TenantIDTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TenantIDTxtActionPerformed(evt);
+            }
+        });
+
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Search");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("AvailDate");
+
+        AvailDateTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AvailDateTxtActionPerformed(evt);
             }
         });
 
@@ -196,115 +217,206 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(button_add, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(button_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(button_update))
-                                .addGap(38, 38, 38)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(bathroomLabel)
-                                        .addComponent(additionalInfoLabel)
-                                        .addComponent(rentLabel)
-                                        .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bedroomsLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(IDTxt)
-                                        .addComponent(bathroomTxt)
-                                        .addComponent(additionalInfoTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                        .addComponent(addressTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                        .addComponent(rentTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                        .addComponent(bedroomsTxt))
-                                .addContainerGap())
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(48, 48, 48)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 966, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(78, 78, 78)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(jLabel4)
+                                                        .addComponent(jLabel3))))
+                                .addGap(0, 103, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(SFtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(SFTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(97, 97, 97)
+                                                .addComponent(jLabel5))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(52, 52, 52)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                        .addComponent(jLabel6)
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addComponent(jLabel8)
+                                                                                .addGap(1, 1, 1))))
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(layout.createSequentialGroup()
+                                                                        .addGap(63, 63, 63)
+                                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(jLabel9)))
+                                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                        .addContainerGap()
+                                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                                .addGap(51, 51, 51)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(AvailabilityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGroup(layout.createSequentialGroup()
+                                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                        .addComponent(RentAmountTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                        .addComponent(BathTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                        .addComponent(AvailDateTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                        .addComponent(TenantIDTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                        .addComponent(PropIDTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addGap(347, 347, 347))
+                                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(AddressTxt)
+                                                                                                .addGap(82, 82, 82)))
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                                                        .addComponent(TermsTxt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                                                                                                        .addComponent(AdditionalTxt, javax.swing.GroupLayout.Alignment.LEADING))
+                                                                                                .addComponent(BedTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                        .addGap(82, 82, 82)))
+                                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                        .addGap(102, 102, 102)
+                                                                                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                .addComponent(updateButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(65, 65, 65)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(61, 61, 61)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(PropIDTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(27, 27, 27)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(AddressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(IDTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(idLabel))
                                                 .addGap(18, 18, 18)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(addressLabel)
-                                                                .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                                .addComponent(button_add)
-                                                                .addGap(14, 14, 14)))
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addGap(8, 8, 8)
-                                                                .addComponent(button_delete)
-                                                                .addGap(26, 26, 26)
-                                                                .addComponent(button_update)
-                                                                .addGap(0, 0, Short.MAX_VALUE))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(bathroomTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(bathroomLabel))
-                                                                .addGap(18, 18, 18)
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(bedroomsLabel)
-                                                                        .addComponent(bedroomsTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(additionalInfoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(additionalInfoLabel))
-                                                                .addGap(18, 18, 18)
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(rentTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(rentLabel))
-                                                                .addGap(18, 18, 18)
-<<<<<<< HEAD
-
-=======
-                                                                
->>>>>>> 5bc4b4979055b9b474a838bb45bed572b88ad2bb
-
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-                                                .addGap(6, 6, 6)))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(BedTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(22, 22, 22))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(addButton)
+                                                .addGap(3, 3, 3)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(SFtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(SFTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonExit)
-                                .addContainerGap())
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(BathTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(19, 19, 19)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(AdditionalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(deleteButton))
+                                        .addComponent(jLabel6))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(RentAmountTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel7))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLabel8)
+                                                        .addComponent(TermsTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(5, 5, 5)
+                                                .addComponent(updateButton)))
+                                .addGap(14, 14, 14)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel9)
+                                        .addComponent(AvailabilityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(3, 3, 3)
+                                                .addComponent(jButton3)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(AvailDateTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel11))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(TenantIDTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(250, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>
 
-    private void button_addActionPerformed(java.awt.event.ActionEvent evt) {
+    private void AddressTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void BathTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void AdditionalTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void RentAmountTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void AvailabilityTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void TenantIDTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void TermsTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void PropIDTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void BedTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void AvailDateTxtActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
-            String ID = IDTxt.getText();
-            String address = addressTxt.getText();
-            String numBedrooms = bedroomsTxt.getText();
-            String numBaths = bathroomTxt.getText();
-            String additionalInfo = additionalInfoTxt.getText();
-            String rent = rentTxt.getText();
+            String ID = PropIDTxt.getText();
+            String address = AddressTxt.getText();
+            String numBedrooms = BedTxt.getText();
+            String numBaths = BathTxt.getText();
+            String additionalInfo = AdditionalTxt.getText();
+            String rent = RentAmountTxt.getText();
+            String terms = TermsTxt.getText();
+            String avail = AvailabilityTxt.getText();
+            String availDate = AvailDateTxt.getText();
+            String tenantID = TenantIDTxt.getText();
 
-
-            PreparedStatement add = con.prepareStatement("insert Into Rentaldata.properties values (?,?,?,?,?,?)"); //we'll have to add space for other cols
+            PreparedStatement add = con.prepareStatement(
+                    "insert Into Rentaldata.properties (ID,Address,Bedrooms,Bathrooms,AdditionalInfo,Rent,RentType,Available,DateAvailable,tenantID) values (?,?,?,?,?,?,?,?,?,?)"); //we'll have to add space for other cols
 
             add.setString(1, ID);
             add.setString(2, address);
@@ -312,11 +424,12 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             add.setString(4, numBaths);
             add.setString(5, additionalInfo);
             add.setString(6, rent);
-            //add.setString(7, terms);
-            //add.setString(8, avail);
-            //add.setString(9, availableDate);
-            //add.setString(10, tenantID);
-            int row = add.executeUpdate();
+            add.setString(7, terms);
+            add.setString(8, avail);
+            add.setString(9, availDate);
+            add.setString(10, tenantID);
+
+            add.executeUpdate();
 
         } catch (SQLException E) {
             E.printStackTrace();
@@ -332,18 +445,23 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }
 
-    private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
-            String sql = "Delete from Rentaldata.properties where id = " + IDTxt.getText();
+            String sql = "Delete from rentaldata.properties where ID = '" + PropIDTxt.getText() + "'";
+
             Statement add = con.createStatement();
             add.executeUpdate(sql);
-            IDTxt.setText("");
-            addressTxt.setText("");
-            bathroomTxt.setText("");
-            additionalInfoTxt.setText("");
-            rentTxt.setText("");
-            bedroomsTxt.setText("");
+            PropIDTxt.setText("");
+            AddressTxt.setText("");
+            BedTxt.setText("");
+            BathTxt.setText("");
+            AdditionalTxt.setText("");
+            RentAmountTxt.setText("");
+            TermsTxt.setText("");
+            AvailabilityTxt.setText("");
+            AvailDateTxt.setText("");
+            TenantIDTxt.setText("");
 
         } catch (SQLException E) {
             E.printStackTrace();
@@ -351,30 +469,49 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         selectional();
     }
 
-    private void button_updateActionPerformed(java.awt.event.ActionEvent evt) {
-      /*  String ID = IDTxt.getText();
-        String last = addressTxt.getText();
-        String first = bathroomTxt.getText();
-        String phone = additionalInfoTxt.getText();
-        String Prop = PRTxt.getText();
-        String date = rentTxt.getText();
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
-        int newID = Integer.parseInt(ID);
-        int newProp = Integer.parseInt(Prop);
+        String propertyID = PropIDTxt.getText();
+        String address = AddressTxt.getText();
+        String numBeds = BedTxt.getText();
+        String numBaths = BathTxt.getText();
+        String info = AdditionalTxt.getText();
+        String rent = RentAmountTxt.getText();
+        String terms = TermsTxt.getText();
+        String avail = AvailabilityTxt.getText();
+        String availDate = AvailDateTxt.getText();
+        //we don't have a field for full description right now
+        String tenantID = TenantIDTxt.getText();
+
         try {
-            rs.updateInt("ID", newID);
-            rs.updateString("First_Name", first);
-            rs.updateString("last_Name", last);
-            rs.updateString("Job_Title", job);
+            rs.updateString("ID", propertyID);
+            rs.updateString("Address", address);
+            rs.updateString("Bedrooms", numBeds);
+            rs.updateString("Bathrooms", numBaths);
+            rs.updateString("AdditionalInfo", info);
+            rs.updateString("Rent", rent );
+            rs.updateString("RentType", terms);
+            rs.updateString("Available", avail);
+            rs.updateString("DateAvailable", availDate );
+            rs.updateString("tenantId", tenantID);
             rs.updateRow();
-            JOptionPane.showMessageDialog(Tenant.this, "Updated");
+            //JOptionPane.showMessageDialog(Tenant.this, "Updated");
         } catch (SQLException err) {
             System.out.println(err.getMessage());
         }
-    }*/
         try {
-            String sql = "update rentaldata.properties set ID = " + IDTxt.getText() + " ,Address = '" + addressTxt.getText() + "' ,bathrooms = '" + bathroomTxt.getText() + "' ,AdditionalInfo ="
-                    + " '" + additionalInfoTxt.getText() + "',Rent = '" + rentTxt.getText() + "',Bedrooms = '" + bedroomsTxt.getText() +  "' where ID = " + IDTxt.getText() + "";
+            String sql = "update rentaldata.properties set ID = '" + PropIDTxt.getText() +
+                         "' ,Address = '" + AddressTxt.getText() +
+                         "' ,Bedrooms = '" + BedTxt.getText() +
+                         "' ,bathrooms = '" + BathTxt.getText() +
+                         "' ,AdditionalInfo = '" + AdditionalTxt.getText() +
+                         "' ,Rent = '" + RentAmountTxt.getText() +
+                         "' ,RentType = '" +  TermsTxt.getText() +
+                         "' ,Available  = '" + AvailabilityTxt.getText() +
+                         "' , DateAvailable = '" + AvailDateTxt.getText() +
+                         "' ,tenantID = '" + TenantIDTxt.getText() +
+                         "' where ID = '" + PropIDTxt.getText() + "'";
+            
             Statement update = con.createStatement();
             update.executeUpdate(sql);
         } catch (SQLException E) {
@@ -386,7 +523,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     private void rentTxtActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
+/* We don't have a variable named SFTxt anymore, i think this was the old search?
     private void SFTxtActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
@@ -407,7 +544,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         }
         selectional();
     }
-
+*/
     private void bedroomsTxtActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
@@ -453,36 +590,33 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JTextField bedroomsTxt;
-    private javax.swing.JLabel bedroomsLabel;
-    private javax.swing.JTextField bathroomTxt;
-    private javax.swing.JLabel bathroomLabel;
-    private javax.swing.JTextField IDTxt;
-    private javax.swing.JLabel idLabel;
-    private javax.swing.JTextField addressTxt;
-    private javax.swing.JLabel addressLabel;
-    private javax.swing.JTextField additionalInfoTxt;
-    private javax.swing.JLabel additionalInfoLabel;
-    private javax.swing.JTextField rentTxt;
-    private javax.swing.JLabel rentLabel;
-    private javax.swing.JTextField termsTxt;
-    private javax.swing.JLabel termsLabel;
-    private javax.swing.JTextField availTxt;
-    private javax.swing.JLabel availLabel;
-    private javax.swing.JTextField availDateTxt;
-    private javax.swing.JLabel availDateLabel;
-    private javax.swing.JTextField tenantIDTxt;
-    private javax.swing.JLabel tenantIDLabel;
-    private javax.swing.JTextField SFTxt;
-    private javax.swing.JLabel SFtxt;
-    private javax.swing.JTable PropertiesTable;
-    private javax.swing.JButton button_add;
-    private javax.swing.JButton button_delete;
-    private javax.swing.JButton button_update;
-    private javax.swing.JButton jButtonExit;
+    private javax.swing.JButton addButton;
+    private javax.swing.JTextField AdditionalTxt;
+    private javax.swing.JTextField AddressTxt;
+    private javax.swing.JTextField AvailDateTxt;
+    private javax.swing.JTextField AvailabilityTxt;
+    private javax.swing.JTextField BathTxt;
+    private javax.swing.JTextField BedTxt;
+    private javax.swing.JTextField PropIDTxt;
+    private javax.swing.JTable Properties2;
+    private javax.swing.JTextField RentAmountTxt;
+    private javax.swing.JTextField TenantIDTxt;
+    private javax.swing.JTextField TermsTxt;
+    private javax.swing.JButton updateButton;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    // end of declarations
+    // End of variables declaration
+
 }
 

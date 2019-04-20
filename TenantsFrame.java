@@ -67,9 +67,9 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
         jTextField2 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tenants2 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         IDTxt = new javax.swing.JTextField();
         FNTxt = new javax.swing.JTextField();
         PNTxt = new javax.swing.JTextField();
@@ -106,24 +106,24 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
         ));
         jScrollPane1.setViewportView(Tenants2);
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Delete");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Update");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
 
@@ -192,9 +192,9 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton3))
+                                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(updateButton))
                                 .addGap(38, 38, 38)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(FNtxt)
@@ -238,14 +238,14 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
                                                                 .addComponent(LNtxt)
                                                                 .addComponent(LNTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                                .addComponent(jButton1)
+                                                                .addComponent(addButton)
                                                                 .addGap(14, 14, 14)))
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addGap(8, 8, 8)
-                                                                .addComponent(jButton2)
+                                                                .addComponent(deleteButton)
                                                                 .addGap(26, 26, 26)
-                                                                .addComponent(jButton3)
+                                                                .addComponent(updateButton)
                                                                 .addGap(0, 0, Short.MAX_VALUE))
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -278,8 +278,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
         pack();
     }// </editor-fold>
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             String ID = IDTxt.getText();
             String LastName = LNTxt.getText();
@@ -310,8 +309,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
         // TODO add your handling code here:
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             String sql = "Delete from rentaldata.tenants where id = " + IDTxt.getText();
             Statement add = con.createStatement();
@@ -329,32 +327,34 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
         selectional();
     }
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-      /*  String ID = IDTxt.getText();
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        String ID = IDTxt.getText();
         String last = LNTxt.getText();
         String first = FNTxt.getText();
         String phone = PNTxt.getText();
-        String Prop = PRTxt.getText();
+        String email = ETxt.getText();
+        //String Prop = PRTxt.getText();
         String date = RPTxt.getText();
 
-        int newID = Integer.parseInt(ID);
-        int newProp = Integer.parseInt(Prop);
         try {
-            rs.updateInt("ID", newID);
-            rs.updateString("First_Name", first);
-            rs.updateString("last_Name", last);
-            rs.updateString("Job_Title", job);
+            rs.updateString("ID", ID);
+            rs.updateString("FirstName", first);
+            rs.updateString("lastName", last);
+            rs.updateString("phonenumber", phone);
+            rs.updateString("Email", email);
             rs.updateRow();
-            JOptionPane.showMessageDialog(Tenant.this, "Updated");
+          //  JOptionPane.showMessageDialog(Tenant.this, "Updated");
         } catch (SQLException err) {
             System.out.println(err.getMessage());
         }
-    }*/
-
         try {
-
-            String sql = "update rentaldata.tenants set ID = " +IDTxt.getText()+" ,LastName = '"+LNTxt.getText()+"' ,FirstName = '"+FNTxt.getText()+"' ,PhoneNumber ="
-                    + " '"+PNTxt.getText()+"',RentPaid = '"+RPTxt.getText()+"',Email = '"+ETxt.getText()+"' where ID = "+IDTxt.getText()+"";
+            String sql = "update rentaldata.tenants set ID = " + IDTxt.getText()+
+                         " ,LastName = '"+LNTxt.getText()+
+                         "' ,FirstName = '"+FNTxt.getText()+
+                         "' ,PhoneNumber =" + " '"+PNTxt.getText()+
+                         "',RentPaid = '"+RPTxt.getText()+
+                         "',Email = '" +ETxt.getText()+
+                         "' where ID = "+IDTxt.getText()+"";
             Statement update = con.createStatement();
             update.executeUpdate(sql);
         }
@@ -450,9 +450,9 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
     private javax.swing.JTextField SFTxt;
     private javax.swing.JLabel SFtxt;
     private javax.swing.JTable Tenants2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton addButton;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton updateButton;
     private javax.swing.JButton jButtonExit;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;

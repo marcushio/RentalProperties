@@ -7,26 +7,18 @@
  * email: mtrujillo255@cnm.edu
  * assignment due date:
  */
-public class PropertiesTable {
+import java.sql.*;
+
 
 //Let me know if anything needs to be changed
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import net.proteanit.sql.DbUtils;
-
-
-public class guiProp extends javax.swing.JFrame {
+public class PropertiesTable extends javax.swing.JFrame {
     
      private Connection con = null;
      private Statement st = null;
      private ResultSet rs = null;
 
-    
-    public guiProp() {
+    public PropertiesTable() {
         initComponents();
         selectional();
     }
@@ -68,7 +60,7 @@ public class guiProp extends javax.swing.JFrame {
         AvailabilityTxt = new javax.swing.JTextField();
         TenantIDTxt = new javax.swing.JTextField();
         Add = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        buttonDelete = new javax.swing.JButton();
         Update = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
@@ -168,10 +160,10 @@ public class guiProp extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Delete");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonDelete.setText("Delete");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                buttonDeleteActionPerformed(evt);
             }
         });
 
@@ -242,7 +234,7 @@ public class guiProp extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(AvailabilityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(buttonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -303,7 +295,7 @@ public class guiProp extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(AdditionalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2))
+                        .addComponent(buttonDelete))
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -370,8 +362,25 @@ public class guiProp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                        
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            String sql = "Delete from Rentaldata.properties where id = " + PropIDTxt.getText();
+            Statement add = con.createStatement();
+            add.executeUpdate(sql);
+            PropIDTxt.setText("");
+            AddressTxt.setText("");
+            BedTxt.setText("");
+            BathTxt.setText("");
+            AdditionalTxt.setText("");
+            RentAmountTxt.setText("");
+            TermsTxt.setText("");
+            AvailabilityTxt.setText("");
+            TenantIDTxt.setText("");
+
+        } catch (SQLException E) {
+            E.printStackTrace();
+        }
+        selectional();
     }                                        
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -390,48 +399,65 @@ public class guiProp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                            
 
-    private void AddActionPerformed(java.awt.event.ActionEvent evt) {                                    
-        // TODO add your handling code here:
+    private void AddActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            String ID = PropIDTxt.getText();
+            String address = AddressTxt.getText();
+            String numBedrooms = BedTxt.getText();
+            String numBaths = BathTxt.getText();
+            String additionalInfo = AdditionalTxt.getText();
+            String rent = RentAmountTxt.getText();
+            String terms = TermsTxt.getText();
+            String avail = AvailabilityTxt.getText();
+            String availDate = AvailDateTxt.getText();
+            String tenantID = TenantIDTxt.getText();
+
+            PreparedStatement add = con.prepareStatement("insert Into Rentaldata.properties values (?,?,?,?,?,?,?,?,?,?)"); //we'll have to add space for other cols
+
+            add.setString(1, ID);
+            add.setString(2, address);
+            add.setString(3, numBedrooms);
+            add.setString(4, numBaths);
+            add.setString(5, additionalInfo);
+            add.setString(6, rent);
+            add.setString(7, terms);
+            add.setString(8, avail);
+            add.setString(9, availDate);
+            add.setString(10, tenantID);
+
+            int row = add.executeUpdate();
+
+        } catch (SQLException E) {
+            E.printStackTrace();
+        }
+        selectional();
     }                                   
 
-    private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        // TODO add your handling code here:
+    private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {
+        String propertyID = PropIDTxt.getText();
+        String address = AddressTxt.getText();
+        String numBedrooms = BedTxt.getText();
+        String numBaths = BathTxt.getText();
+        String additionalInfo = AdditionalTxt.getText();
+        String rent = RentAmountTxt.getText();
+        String terms = TermsTxt.getText();
+        String avail = AvailabilityTxt.getText();
+        String availDate = AvailDateTxt.getText();
+        String tenantID = TenantIDTxt.getText();
+
+        try {
+            rs.updateString("ID", propertyID);
+            rs.updateString("Address", address);
+            rs.updateString("Bedrooms", numBedrooms);
+            rs.updateString("Bathrooms", numBaths);
+            rs.updateRow();
+            //JOptionPane.showMessageDialog(Tenant.this, "Updated");
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
     }                                      
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(guiProp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(guiProp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(guiProp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(guiProp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new guiProp().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton Add;
@@ -447,7 +473,7 @@ public class guiProp extends javax.swing.JFrame {
     private javax.swing.JTextField TenantIDTxt;
     private javax.swing.JTextField TermsTxt;
     private javax.swing.JButton Update;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton buttonDelete;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

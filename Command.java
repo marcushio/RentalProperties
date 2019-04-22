@@ -3,7 +3,7 @@ import java.io.Serializable;
 public class Command implements Serializable {
 private int commnad;
 private Tenant tenant;
-private RentalProperty property;
+private Property property;
 
 public Tenant getTenant() {
 	return tenant;
@@ -17,10 +17,10 @@ public int getCommnad() {
 public void setCommnad(int commnad) {
 	this.commnad = commnad;
 }
-public RentalProperty getProperty() {
+public Property getProperty() {
 	return property;
 }
-public void setProperty(RentalProperty prop) {
+public void setProperty(Property prop) {
 	this.property = property;
 }
 

@@ -117,7 +117,7 @@ public class Server {
             else if (receivedObject instanceof Statement){
                 //code to get resultSet and send something serializable back to client
             } // next case we want to send billing data back
-            else if (receivedObject instanceof  )
+           // else if (receivedObject instanceof  )
         } catch (ClassNotFoundException ex){
             System.out.println("Bad Data sent from client ");
         } catch (SQLException ex ){

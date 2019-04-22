@@ -12,14 +12,18 @@ public class HomeFrame extends JFrame {
     JTabbedPane tabs;
     TenantsFrame tenantsFrame;
     PropertiesFrame propertiesFrame;
+    BillingFrame billingFrame;
 
     public HomeFrame(){
         //create and add components to our tabs
         tabs = new JTabbedPane();
         tenantsFrame = new TenantsFrame();
         propertiesFrame = new PropertiesFrame();
+        billingFrame = new BillingFrame();
+
         tabs.addTab("Tenants", tenantsFrame );
         tabs.addTab("Properties", propertiesFrame);
+        tabs.addTab("Billing", billingFrame);
         add(tabs);
         pack();
         setVisible(true);

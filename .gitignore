@@ -18,6 +18,8 @@
 .idea
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+#
+*.dat
 
 # Package Files #
 *.jar

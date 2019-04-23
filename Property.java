@@ -121,7 +121,7 @@ public class Property implements Serializable {
         setTerms("Monthly");
         setAvailable("yes");
         setDateAvailable(LocalDate.now());
-        setTenantID("1111");
+        setTenantID("111");
         setDescription("Great place near a golf course");
     }
 

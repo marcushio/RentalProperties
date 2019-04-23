@@ -44,8 +44,9 @@ class Client{
     }
     private void processConnection(){
         try{
-            Command testCommand = new Command(new Property(), CommandWord.ADD);
-            Command testCommand2 = new Command(new Tenant(), CommandWord.ADD);
+            Property testProp = new Property(); testProp.setToDefault();
+            Command testCommand = new Command("Properties", testProp, CommandWord.ADD );
+            Command testCommand2 = new Command("Tenants", new Tenant(), CommandWord.ADD );
 
             System.out.println("sending property from client");
             output.writeObject(testCommand);

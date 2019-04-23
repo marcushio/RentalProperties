@@ -8,8 +8,8 @@ public class Command implements Serializable {
 	private Object dataObject;
 	private String tableName;
 
-	public Command(String dbName, Object dataObject, CommandWord command){
-		this.dbName = dbName;
+	public Command(String tableName, Object dataObject, CommandWord command){
+		this.tableName = tableName;
 		this.dataObject = dataObject;
 		this.command = command;
 	}

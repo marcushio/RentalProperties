@@ -66,6 +66,8 @@ public class Property implements Serializable {
         return dateAvailable;
     }
 
+    public String getFullDescription(){ return description; }
+
     //All our setters
 
     public void setPropertyID(String propertyID) { this.propertyID = propertyID; }

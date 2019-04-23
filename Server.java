@@ -73,11 +73,15 @@ public class Server {
             //we can have a few objects come through the pipeline, let's handle each accordingly
             //case 1 we get a Property to add to the properties table
             Command command = ( Command ) input.readObject();
+            System.out.println("Object in and read.");
             String tableName = command.getTableName();
-            if ( command.getCommand() == CommandWord.ADD && tableName == "Properties"){
+            System.out.println("table name is " + tableName);
+            CommandWord commandWord = command.getCommand();
+            System.out.println(commandWord);
+            if ( (commandWord == CommandWord.ADD) && (tableName.equals("Properties"))){
                 Property newProperty = ( Property ) command.getDataObject();
 
-                PreparedStatement add = dbConnection.prepareStatement("insert into " + tableName + " values (?,?,?,?,?,?,?,?,?,?)");
+                PreparedStatement add = dbConnection.prepareStatement("insert into " + tableName + " values (?,?,?,?,?,?,?,?,?,?,?)");
 
                 add.setString(1, newProperty.getPropertyID());
                 add.setString(2, newProperty.getAddress());
@@ -91,11 +95,12 @@ public class Server {
                 LocalDate date = newProperty.getDateAvailable();
                 add.setDate(9, java.sql.Date.valueOf(date));
                 add.setString(10, newProperty.getTenantID());
+                add.setString(11, newProperty.getFullDescription());
                 System.out.println(add.toString());
 
                 System.out.println("about to do the execute");
                 int row = add.executeUpdate();
-                System.out.println("executed done, now about to write out");
+                System.out.println("executed done row:  " + row + "  was effected. Time to write out");
                 output.writeObject(row);
                 System.out.println("written out done ");
             } // next case we get a tenant to add to the tenants table

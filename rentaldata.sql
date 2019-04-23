@@ -12,16 +12,17 @@ Bedrooms INT NOT NULL,
 	RentAmount FLOAT (2) NOT NULL, 
 	RentType VARCHAR (10) NOT NULL, 
 	Available VARCHAR (4) NOT NULL, 
-	AvailableDate DATE NOT NULL, 
+	AvailableDate DATE NOT NULL,
+	TenantId VARCHAR(12) NOT NULL,
 	Description VARCHAR (255),
 	 PRIMARY KEY (PropertyID)
 );
 
 INSERT INTO Properties (PropertyID, Address, Bedrooms,Bathrooms,AdditionalInfo , 
-	RentAmount ,RentType ,Available ,AvailableDate ,Description )
-	VALUES ('SABQ111','12 Cactus Dr', 2, 1.5, 'w/d included', 800.00, 'monthly', 'yes', '2019-05-05', 
+	RentAmount ,RentType ,Available ,AvailableDate, TenantId ,Description )
+	VALUES ('SABQ111','12 Cactus Dr', 2, 1.5, 'w/d included', 800.00, 'monthly', 'yes', '2019-05-05', '11111',
 	 'A nice small family residence'),
-	('SABQ112','508 Superstition Dr', 3, 2, 'big yard', 1200.00, 'monthly', 'yes', '2019-05-05', 
+	('SABQ112','508 Superstition Dr', 3, 2, 'big yard', 1200.00, 'monthly', 'yes', '2019-05-05', '323232',
 	 'Near golf course');
 
 DROP TABLE Tenants;

@@ -49,8 +49,11 @@ class Client{
             Command testCommand2 = new Command("Tenants", new Tenant(), CommandWord.ADD );
 
             System.out.println("sending property from client");
+
             output.writeObject(testCommand);
+            output.flush();
             output.writeObject(testCommand2);
+            System.out.println(input.readObject());
         } catch(Exception ex){
             System.out.println("Exception while testing");
 

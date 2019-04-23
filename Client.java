@@ -44,16 +44,18 @@ class Client{
     }
     private void processConnection(){
         try{
-            Property testProp = new Property(); testProp.setToDefault();
-            Command testCommand = new Command("Properties", testProp, CommandWord.ADD );
-            Command testCommand2 = new Command("Tenants", new Tenant(), CommandWord.ADD );
+            //Property testProp = new Property(); testProp.setToDefault();
+            Tenant testTenant = new Tenant(); testTenant.setToDefaults();
+            //Command testCommand = new Command("Properties", testProp, CommandWord.ADD );
+            Command testCommand2 = new Command("Tenants", testTenant, CommandWord.ADD );
 
-            System.out.println("sending property from client");
+            System.out.println("sending property and tenant from client");
 
-            output.writeObject(testCommand);
-            output.flush();
+            //output.writeObject(testCommand);
+            //output.flush();
             output.writeObject(testCommand2);
-            System.out.println(input.readObject());
+            System.out.println("maybe we can get some confirmation code" + input.readObject());
+            //System.out.println("maybe we can get some confirmation code round 2" + input.readObject());
         } catch(Exception ex){
             System.out.println("Exception while testing");
 

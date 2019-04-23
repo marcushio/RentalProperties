@@ -35,6 +35,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class TenantsFrame extends javax.swing.JInternalFrame{
 
@@ -49,9 +50,9 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
     public final void selectional() {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentaldata", "root", "Aurelius11!");
+            con = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student");
             st = con.createStatement();
-            rs = st.executeQuery("select * from Rentaldata.tenants");
+            rs = st.executeQuery("select * from tenants");
             Tenants2.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
 
@@ -286,13 +287,14 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
             String PhoneNumber = PNTxt.getText();
             String RentPaid = RPTxt.getText();
             String Email = ETxt.getText();
-            PreparedStatement add = con.prepareStatement("insert Into rentaldata.Tenants values (?,?,?,?,?,?)");
+            PreparedStatement add = con.prepareStatement("insert Into Tenants values (?,?,?,?,?,?)");
             add.setString(1, ID);
-            add.setString(2, LastName);
-            add.setString(3, FirstName);
+            add.setString(2, FirstName);
+            add.setString(3, LastName);
             add.setString(4, PhoneNumber);
-            add.setString(5, RentPaid);
+            add.setDate(5, java.sql.Date.valueOf(RentPaid));
             add.setString(6,Email);
+
             int row = add.executeUpdate();
 
         } catch (SQLException E) {
@@ -311,7 +313,8 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            String sql = "Delete from rentaldata.tenants where id = '" + IDTxt.getText() + "'";
+            //String sql = "Delete from tenants where TenantID = '" + IDTxt.getText() + "'";
+            String sql = "Delete from Tenants where TenantID = '" + IDTxt.getText() + "'";
             Statement add = con.createStatement();
             add.executeUpdate(sql);
             IDTxt.setText("");
@@ -348,13 +351,13 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
             System.out.println(err.getMessage());
         }
         try {
-            String sql = "update rentaldata.tenants set ID = '" + IDTxt.getText()+
+            String sql = "update tenants set TenantID = '" + IDTxt.getText()+
                          "' ,LastName = '"+LNTxt.getText()+
                          "' ,FirstName = '"+FNTxt.getText()+
                          "' ,PhoneNumber =" + " '"+PNTxt.getText()+
                          "',RentPaid = '"+RPTxt.getText()+
                          "',Email = '" +ETxt.getText()+
-                         "' where ID = "+IDTxt.getText()+"";
+                         "' where TenantID = '"+IDTxt.getText()+"'";
             Statement update = con.createStatement();
             update.executeUpdate(sql);
         }

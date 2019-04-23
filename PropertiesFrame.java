@@ -49,9 +49,9 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
 
     public final void selectional() {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentaldata", "root", "Aurelius11!");
+            con = DriverManager.getConnection("jdbc:derby:RentalData", "student", "student");
             st = con.createStatement();
-            rs = st.executeQuery("select * from Rentaldata.properties");
+            rs = st.executeQuery("select * from Properties");
             Properties2.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
 
@@ -415,8 +415,9 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             String availDate = AvailDateTxt.getText();
             String tenantID = TenantIDTxt.getText();
 
+
             PreparedStatement add = con.prepareStatement(
-                    "insert Into Rentaldata.properties (ID,Address,Bedrooms,Bathrooms,AdditionalInfo,Rent,RentType,Available,DateAvailable,tenantID) values (?,?,?,?,?,?,?,?,?,?)"); //we'll have to add space for other cols
+                    "insert Into properties (PropertyID,Address,Bedrooms,Bathrooms,AdditionalInfo,RentAmount,RentType,Available,AvailableDate,tenantID) values (?,?,?,?,?,?,?,?,?,?)"); //we'll have to add space for other cols
 
             add.setString(1, ID);
             add.setString(2, address);
@@ -448,8 +449,8 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
-            String sql = "Delete from rentaldata.properties where ID = '" + PropIDTxt.getText() + "'";
-
+            //String sql = "Delete from properties where propertyID = '" + PropIDTxt.getText() + "'";
+            String sql = "Delete from Properties where PropertyID = '" + PropIDTxt.getText() + "'";
             Statement add = con.createStatement();
             add.executeUpdate(sql);
             PropIDTxt.setText("");
@@ -484,15 +485,15 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         String tenantID = TenantIDTxt.getText();
 
         try {
-            rs.updateString("ID", propertyID);
+            rs.updateString("PropertyID", propertyID);
             rs.updateString("Address", address);
             rs.updateString("Bedrooms", numBeds);
             rs.updateString("Bathrooms", numBaths);
             rs.updateString("AdditionalInfo", info);
-            rs.updateString("Rent", rent );
+            rs.updateString("RentAmount", rent );
             rs.updateString("RentType", terms);
             rs.updateString("Available", avail);
-            rs.updateString("DateAvailable", availDate );
+            rs.updateString("AvailableDate", availDate );
             rs.updateString("tenantId", tenantID);
             rs.updateRow();
             //JOptionPane.showMessageDialog(Tenant.this, "Updated");
@@ -500,17 +501,17 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             System.out.println(err.getMessage());
         }
         try {
-            String sql = "update rentaldata.properties set ID = " + PropIDTxt.getText() +
+            String sql = "update properties set propertyID = " + PropIDTxt.getText() +
                          " ,Address = '" + AddressTxt.getText() +
                          "' ,Bedrooms = '" + BedTxt.getText() +
                          "' ,bathrooms = '" + BathTxt.getText() +
                          "' ,AdditionalInfo = '" + AdditionalTxt.getText() +
-                         "' ,Rent = '" + RentAmountTxt.getText() +
+                         "' ,RentAmount = '" + RentAmountTxt.getText() +
                          "' ,RentType = '" +  TermsTxt.getText() +
                          "' ,Available  = '" + AvailabilityTxt.getText() +
-                         "' , DateAvailable = '" + AvailDateTxt.getText() +
+                         "' ,AvailableDate = '" + AvailDateTxt.getText() +
                          "' ,tenantID = '" + TenantIDTxt.getText() +
-                         "' where ID = " + PropIDTxt.getText() + "";
+                         "' where propertyID = '" + PropIDTxt.getText() + "'";
 
             Statement update = con.createStatement();
             update.executeUpdate(sql);

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 /**
  * Class Description
@@ -14,11 +15,31 @@ import java.awt.event.ActionListener;
 
 public class BillingFrame extends JInternalFrame {
 
+    private Connection con = null;
+    private Statement st = null;
+    private ResultSet rs = null;
     /**
      * Creates new form BillingFrame
      */
     public BillingFrame() {
         initComponents();
+        selectional();
+    }
+
+    public void selectional(){
+
+            try {
+                con = DriverManager.getConnection("jdbc:derby:RentalData", "student", "student");
+                st = con.createStatement();
+                rs = st.executeQuery("SELECT * FROM Tenants WHERE RentPaid < '2019-04-01'");
+
+                // rs = st.executeQuery("SELECT * FROM Properties JOIN Tenants WHERE Properties.TenantID = Tenants.TenantID AND RentPaid > '2019-04-01' ");
+                jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+            } catch (SQLException e) {
+
+                e.printStackTrace();
+            }
+
     }
 
     /**

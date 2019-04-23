@@ -104,20 +104,18 @@ public class Server {
                 output.writeObject(row);
                 System.out.println("written out done ");
             } // next case we get a tenant to add to the tenants table
-            else if (command.getCommand() == CommandWord.ADD && tableName == "Tenants") {
+            else if ( (command.getCommand() == CommandWord.ADD) && ( tableName.equals("Tenants")) ){
                 Tenant newTenant = ( Tenant ) command.getDataObject();
-                PreparedStatement add = dbConnection.prepareStatement("insert into RentalData.Tenants values (?,?,?,?,?,?)");
+                PreparedStatement add = dbConnection.prepareStatement("insert into Tenants values (?,?,?,?,?,?)");
                 add.setString(1, newTenant.getIdNumber());
                 add.setString(2, newTenant.getFirstName());
                 add.setString(3, newTenant.getLastName());
                 add.setString(4, newTenant.getCellphone());
-                LocalDate date = newTenant.getRentPaid();
-                add.setDate(5, java.sql.Date.valueOf(date)); //I'm super dumb, valueOf can also take a string as a param. I didn't have to change the tenant class to have a LocalDate...
+                LocalDate date = newTenant.getRentPaid(); //we're using local date because date is pretty deprecated at this point
+                add.setDate(5, java.sql.Date.valueOf(date));
                 add.setString(6, newTenant.getEmail());
-                //need to add bit for having mult properties. We have one, that's why Properties have Tenant Id's that are foreign keys.
-                System.out.println(add);
 
-                System.out.println("about to do the execute");
+                System.out.println("about to do the execute for tenant");
                 int row = add.executeUpdate();
                 System.out.println("executed done, now about to write out");
                 output.writeObject(row);

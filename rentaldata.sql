@@ -34,13 +34,11 @@ CREATE TABLE Tenants
 	LastName VARCHAR(45) NOT NULL,
 	PhoneNumber CHAR(12),
 	RentPaid DATE,
-	Email VARCHAR(60),
-	Properties VARCHAR(60)
-
+	Email VARCHAR(60)
 );
 
-INSERT INTO Tenants (TenantID, FirstName, LastName, PhoneNumber, RentPaid, Email, Properties)
-	VALUES ('111', 'Frank', 'Delano', '505-555-5555', '2019-04-04', 'fd@gmail.com', 'SABQ111'),
-			('112', 'Mary', 'Xao', '575-444-4444', '2019-09-09', 'xaoxao@gmail.com', 'SABQ112');
+INSERT INTO Tenants (TenantID, FirstName, LastName, PhoneNumber, RentPaid, Email)
+	VALUES ('111', 'Frank', 'Delano', '505-555-5555', '2019-04-04', 'fd@gmail.com'),
+			('112', 'Mary', 'Xao', '575-444-4444', '2019-09-09', 'xaoxao@gmail.com');
 
 

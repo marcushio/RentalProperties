@@ -79,4 +79,13 @@ public class Tenant implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setToDefaults(){ // used for quick default settings to test
+        this.setIdNumber("1111111");
+        this.setFirstName("Trial");
+        this.setLastName("Testman");
+        this.setCellphone("505-555-5555");
+        this.setRentalPaid(LocalDate.now());
+        this.setEmail("l337codez@gmail.com");
+    }
 }

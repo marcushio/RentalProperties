@@ -72,22 +72,25 @@ public class Server {
         try {
             //we can have a few objects come through the pipeline, let's handle each accordingly
             //case 1 we get a Property to add to the properties table
-            Object receivedObject = input.readObject();
-            if ( receivedObject instanceof Property){
-                PreparedStatement add = dbConnection.prepareStatement("insert into RentalData.Properties values (?,?,?,?,?,?,?,?,?,?)");
+            Command command = ( Command ) input.readObject();
+            String tableName = command.getTableName();
+            if ( command.getCommand() == CommandWord.ADD && tableName == "Properties"){
+                Property newProperty = ( Property ) command.getDataObject();
 
-                add.setString(1, ((Property) receivedObject).propertyID);
-                add.setString(2, ((Property) receivedObject).address);
-                add.setInt(3, ((Property) receivedObject).bedrooms);
-                add.setInt(4, ((Property) receivedObject).bathrooms);
-                add.setString(5, ((Property) receivedObject).info);
-                float cost = ((Property) receivedObject).cost;
-                add.setFloat(6, cost);
-                add.setString(7, ((Property) receivedObject).terms);
-                add.setString(8, ((Property) receivedObject).available);
-                LocalDate date = ((Property) receivedObject).dateAvailable;
+                PreparedStatement add = dbConnection.prepareStatement("insert into " + tableName + " values (?,?,?,?,?,?,?,?,?,?)");
+
+                add.setString(1, newProperty.getPropertyID());
+                add.setString(2, newProperty.getAddress());
+                add.setInt(3, newProperty.getBedrooms());
+                add.setInt(4, newProperty.getBathrooms());
+                add.setString(5, newProperty.getInfo());
+
+                add.setFloat(6, newProperty.getCost());
+                add.setString(7, newProperty.getTerms());
+                add.setString(8, newProperty.getAvailable());
+                LocalDate date = newProperty.getDateAvailable();
                 add.setDate(9, java.sql.Date.valueOf(date));
-                add.setString(10, ((Property) receivedObject).tenantID);
+                add.setString(10, newProperty.getTenantID());
                 System.out.println(add.toString());
 
                 System.out.println("about to do the execute");
@@ -96,16 +99,17 @@ public class Server {
                 output.writeObject(row);
                 System.out.println("written out done ");
             } // next case we get a tenant to add to the tenants table
-            else if (receivedObject instanceof Tenant) {
+            else if (command.getCommand() == CommandWord.ADD && tableName == "Tenants") {
+                Tenant newTenant = ( Tenant ) command.getDataObject();
                 PreparedStatement add = dbConnection.prepareStatement("insert into RentalData.Tenants values (?,?,?,?,?,?)");
-                add.setString(1, ((Tenant) receivedObject).getIdNumber());
-                add.setString(2, ((Tenant) receivedObject).getFirstName());
-                add.setString(3, ((Tenant) receivedObject).getLastName());
-                add.setString(4, ((Tenant) receivedObject).getCellphone());
-                LocalDate date = ((Tenant) receivedObject).getRentPaid();
+                add.setString(1, newTenant.getIdNumber());
+                add.setString(2, newTenant.getFirstName());
+                add.setString(3, newTenant.getLastName());
+                add.setString(4, newTenant.getCellphone());
+                LocalDate date = newTenant.getRentPaid();
                 add.setDate(5, java.sql.Date.valueOf(date)); //I'm super dumb, valueOf can also take a string as a param. I didn't have to change the tenant class to have a LocalDate...
-                add.setString(6, ((Tenant) receivedObject).getEmail());
-                        //need to add bit for having mult properties. We have one, that's why Properties have Tenant Id's that are foreign keys.
+                add.setString(6, newTenant.getEmail());
+                //need to add bit for having mult properties. We have one, that's why Properties have Tenant Id's that are foreign keys.
                 System.out.println(add);
 
                 System.out.println("about to do the execute");
@@ -114,10 +118,10 @@ public class Server {
                 output.writeObject(row);
                 System.out.println("written out done ");
             }// next case we get a statement from client asking for data
-            else if (receivedObject instanceof Statement){
-                //code to get resultSet and send something serializable back to client
+            else if (command.getCommand() == CommandWord.RETRIEVE){
+                //we'll have to implement new class
             } // next case we want to send billing data back
-           // else if (receivedObject instanceof  )
+
         } catch (ClassNotFoundException ex){
             System.out.println("Bad Data sent from client ");
         } catch (SQLException ex ){

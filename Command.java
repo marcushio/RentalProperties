@@ -6,9 +6,12 @@ enum CommandWord{
 public class Command implements Serializable {
 	private CommandWord command;
 	private Object dataObject;
+	private String tableName;
 
-	public Command(Object dataObject, CommandWord command){
-
+	public Command(String dbName, Object dataObject, CommandWord command){
+		this.dbName = dbName;
+		this.dataObject = dataObject;
+		this.command = command;
 	}
 	/**
 	 * @return this classes object that holds data relevant to our command
@@ -18,13 +21,16 @@ public class Command implements Serializable {
 		return this.dataObject;
 	}
 
+	public String getTableName() {
+		return tableName;
+	}
 	public void setDataObject(Object dataObject) {
 		this.dataObject = dataObject;
 	}
 	public CommandWord getCommand() {
 		return command;
 	}
-	public void setcommand(CommandWord command) {
+	public void setCommand(CommandWord command) {
 		this.command = command;
 	}
 

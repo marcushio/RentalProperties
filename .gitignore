@@ -1,13 +1,14 @@
 # dat files from the database
-*.dat
+
 #idk what lck is precisely but i know its from the db and a pain
-*.lck
+
 
 # Compiled class file
 *.class
 
+
 # Log file
-*.log
+
 
 # BlueJ files
 *.ctxt

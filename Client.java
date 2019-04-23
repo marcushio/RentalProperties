@@ -44,10 +44,12 @@ class Client{
     }
     private void processConnection(){
         try{
-            Property testProp = new Property();
-            testProp.setToDefault();
+            Command testCommand = new Command(new Property(), CommandWord.ADD);
+            Command testCommand2 = new Command(new Tenant(), CommandWord.ADD);
+
             System.out.println("sending property from client");
-            output.writeObject(testProp);
+            output.writeObject(testCommand);
+            output.writeObject(testCommand2);
         } catch(Exception ex){
             System.out.println("Exception while testing");
 

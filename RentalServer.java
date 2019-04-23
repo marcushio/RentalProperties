@@ -1,4 +1,6 @@
 
+import org.apache.derby.client.am.SqlException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -19,7 +21,9 @@ public class RentalServer {
 	String PhoneNumber;
 	String RentPaid;
 	String Email;
-	final String DATABASE_URL = "jdbc:derby:Rentals";
+	final String DATABASE_URL = "jdbc:derby:rentaldata";
+	public static final String USER = "student";
+	public static final String PASSWORD = "student";
 
 	public void runServer() {
 		ServerSocket ss = null;
@@ -35,10 +39,13 @@ public class RentalServer {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (SqlException ex){
+
 		}
 	}
+	}
 
-	public void processConnection(Socket socket) {
+	public void processConnection(Socket socket) throws SQLException, IOException {
 		ObjectOutputStream out = null;
 		InputStream in = null;
 		try {
@@ -58,19 +65,20 @@ public class RentalServer {
 					cmd = (Command) br.readObject();
 					if (cmd.getCommnad() == 0) {
 						// add
-						//try {
+						try {
 							ten = cmd.getTenant();
 							// use try-with-resources to connect to and query the database
-							/*Connection connection;
-							connection = DriverManager.getConnection(DATABASE_URL, "root", "Aurelius11!");
+							Connection connection;
+							connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
 							PreparedStatement statement = connection.prepareStatement(
-									"insert into Tenant (lastname,firstname,phonenumber,rentpaid,email) values(?,?,?,?,?)");
-							statement.setString(1, ten.getLastName());
-							statement.setString(2, ten.getFirstName());
-							statement.setString(3, ten.getCellphone());
-							statement.setString(4, ten.getRentalPaid());
-							statement.setString(5, ten.getEmail());
-							int rs = statement.executeUpdate();
+									"insert into Tenant (ID, LastName,FirstName,PhoneNumber,RentPaid,Email) values(?,?,?,?,?,?)");
+							statement.setString(1, ten.getID());
+							statement.setString(2, ten.getLastName());
+							statement.setString(3, ten.getFirstName());
+							statement.setString(4, ten.getCellphone());
+							statement.setString(5, ten.getRentalPaid());
+							statement.setString(6, ten.getEmail());
+							int row = statement.executeUpdate();
 							statement = connection.prepareStatement("SELECT * FROM Rentals");
 							ResultSet resultSet = statement.executeQuery();
 							ArrayList<Tenant> list = new ArrayList<Tenant>();
@@ -78,13 +86,13 @@ public class RentalServer {
 								list.add(new Tenant(resultSet.getString(ID), resultSet.getString(LastName), resultSet.getString(FirstName), resultSet.getString(PhoneNumber), 
 										resultSet.getString(RentPaid), resultSet.getString(Email)));
 							}
-							er.setList(list);*/
+							er.setList(list);
 							out.writeObject(er);
 
-						//} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							//e.printStackTrace();
-						//}
+						} catch (SQLException e) {
+							//TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
 					} else if (cmd.getCommnad()== 1) {
 						ten = cmd.getTenant();

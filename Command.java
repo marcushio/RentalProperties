@@ -1,27 +1,31 @@
 import java.io.Serializable;
 
+enum CommandWord{
+	ADD, DELETE, SEARCH, RETRIEVE ;
+}
 public class Command implements Serializable {
-private int commnad;
-private Tenant tenant;
-private Property property;
+	private CommandWord command;
+	private Object dataObject;
 
-public Tenant getTenant() {
-	return tenant;
-}
-public void setTenant(Tenant tenant) {
-	this.tenant = tenant;
-}
-public int getCommnad() {
-	return commnad;
-}
-public void setCommnad(int commnad) {
-	this.commnad = commnad;
-}
-public Property getProperty() {
-	return property;
-}
-public void setProperty(Property prop) {
-	this.property = property;
-}
+	public Command(Object dataObject, CommandWord command){
+
+	}
+	/**
+	 * @return this classes object that holds data relevant to our command
+	 * in this case a property or a
+	 */
+	public Object getDataObject() {
+		return this.dataObject;
+	}
+
+	public void setDataObject(Object dataObject) {
+		this.dataObject = dataObject;
+	}
+	public CommandWord getCommand() {
+		return command;
+	}
+	public void setcommand(CommandWord command) {
+		this.command = command;
+	}
 
 }

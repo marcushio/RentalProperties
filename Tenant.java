@@ -19,9 +19,9 @@ public class Tenant implements Serializable {
     private String firstName;
     private String lastName;
     private String cellphone;
-    private LocalDate rentalPaid;
+    private LocalDate rentPaid;
     private String email;
-
+/*
     public Tenant(String idNumber, String firstName, String lastName, String cellphone, LocalDate rentalPaid, String email) {
         this.setIdNumber(idNumber);
         this.setFirstName(firstName);
@@ -30,13 +30,14 @@ public class Tenant implements Serializable {
         this.setRentalPaid(rentalPaid);
         this.setEmail(email);
     }
+    */
 
-    public LocalDate getRentalPaid() {
-        return rentalPaid;
+    public LocalDate getRentPaid() {
+        return rentPaid;
     }
 
     public void setRentalPaid(LocalDate rentalPaid) {
-        this.rentalPaid = rentalPaid;
+        this.rentPaid = rentalPaid;
     }
 
     public String getCellphone() {

@@ -21,15 +21,15 @@ public class Server {
     private Socket clientConnection;
     private Connection dbConnection;
 
-    private int backlog = 100;
-    private int port = 12345;
+    private final int backlog = 100;
+    private final int port = 12345;
     private static final String url = "jdbc:derby:RentalData";
     private static final String user = "student";
     private static final String password = "student";
 
     public Server(){
         try {
-            dbConnection = DriverManager.getConnection("jdbc:derby:RentalData", user, password);
+            dbConnection = DriverManager.getConnection(url, user, password);
         } catch (SQLException ex){
             System.out.println("Error: check status of database");
             ex.printStackTrace();
@@ -102,7 +102,7 @@ public class Server {
                 add.setString(2, ((Tenant) receivedObject).getFirstName());
                 add.setString(3, ((Tenant) receivedObject).getLastName());
                 add.setString(4, ((Tenant) receivedObject).getCellphone());
-                LocalDate date = ((Tenant) receivedObject).getRentalPaid();
+                LocalDate date = ((Tenant) receivedObject).getRentPaid();
                 add.setDate(5, java.sql.Date.valueOf(date)); //I'm super dumb, valueOf can also take a string as a param. I didn't have to change the tenant class to have a LocalDate...
                 add.setString(6, ((Tenant) receivedObject).getEmail());
                         //need to add bit for having mult properties. We have one, that's why Properties have Tenant Id's that are foreign keys.
@@ -140,7 +140,6 @@ public class Server {
     }
 //code to test our server
     public static void main(String[] args){
-
 
         class Client{
             Socket client;

@@ -3,7 +3,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
- * An object representing a rental property in our property management software.
+ * An object representing a rental property in our property management software. Basically holds the data related to
+ * any given property.
  *
  * @author Marcus Trujillo
  * @version 2/7/19

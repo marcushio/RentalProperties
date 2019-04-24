@@ -102,7 +102,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
                         {null, null, null, null, null, null, null}
                 },
                 new String [] {
-                        "ID", "LastName", "FirstName", "PhoneNumber", "PropRented", "RentPaid", "Email"
+                        "ID", "LastName", "FirstName", "PhoneNumber", "PropRented", "Date Rent Paid", "Email"
                 }
         ));
         jScrollPane1.setViewportView(Tenants2);
@@ -146,7 +146,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
         PNtxt.setText("PhoneNumber");
 
-        RPtxt.setText("RentPaid");
+        RPtxt.setText("Date Rent Paid");
 
         LNTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

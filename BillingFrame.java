@@ -5,7 +5,8 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 /**
- * Class Description
+ * The frame that displays all the data related to the billing data. Works by querying DB based on dates that are past
+ * due and lists the appropriate action.
  *
  * @author Marcus Trujillo
  * @version CS2251 - Intermediate Programming
@@ -177,7 +178,7 @@ public class BillingFrame extends JInternalFrame {
     }
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        selectional();
     }
 
     /**

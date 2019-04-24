@@ -1,8 +1,10 @@
+import javax.swing.table.TableModel;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.ref.Cleaner;
 import java.net.Socket;
+import java.sql.ResultSet;
 
 /**
  * Class Description
@@ -47,17 +49,20 @@ class Client{
             //Property testProp = new Property(); testProp.setToDefault();
             Tenant testTenant = new Tenant(); testTenant.setToDefaults();
             //Command testCommand = new Command("Properties", testProp, CommandWord.ADD );
-            Command testCommand2 = new Command("Tenants", testTenant, CommandWord.ADD );
+            Command testCommand2 = new Command("Properties", "SELECT * FROM Properties", CommandWord.RETRIEVE );
 
-            System.out.println("sending property and tenant from client");
-
+            System.out.println("sending command from client");
             //output.writeObject(testCommand);
             //output.flush();
             output.writeObject(testCommand2);
-            System.out.println("maybe we can get some confirmation code" + input.readObject());
-            //System.out.println("maybe we can get some confirmation code round 2" + input.readObject());
+
+            //test code for retrieval of table data
+            ResultSetModel testModel = (ResultSetModel) input.readObject();
+            System.out.println("maybe we can get some confirmation code that we got our model" );
+            testModel.displayTable();
         } catch(Exception ex){
             System.out.println("Exception while testing");
+            ex.printStackTrace();
 
         }
     }

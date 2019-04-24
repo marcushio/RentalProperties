@@ -10,9 +10,15 @@ import java.io.*;
 import java.net.*;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import javax.sql.*;
 import javax.swing.plaf.nimbus.State;
 
+/**
+ * This is what does the bulk of the work for dealing with data. It connects to the database to get the data the client
+ * wants. Serializable objects need to be sent back and forth between client and server so we can't use ResultSet. We
+ * had to make our own class that we called ResultSetModel in order to be able to send something to the client
+ */
 
 public class Server {
     private ObjectOutputStream output;
@@ -57,10 +63,18 @@ public class Server {
         }
     }
 
+    /**
+     * Our server patiently waiting for a connection.
+     * @throws IOException
+     */
     private void waitForConnection() throws IOException{
         clientConnection = server.accept();
     }
 
+    /**
+     * Gets the streams for our connection so we can read and write
+     * @throws IOException
+     */
     private void getStreams() throws  IOException{
         output = new ObjectOutputStream(clientConnection.getOutputStream());
         output.flush();
@@ -68,6 +82,10 @@ public class Server {
         System.out.println("Got IO Streams");
     }
 
+    /**
+     * Receives command from the client. Polymorphically takes action to query the database or adds to the database.
+     * @throws IOException
+     */
     private void processConnection() throws IOException{
         try {
             //we can have a few objects come through the pipeline, let's handle each accordingly
@@ -80,8 +98,8 @@ public class Server {
             System.out.println(commandWord);
             if ( (commandWord == CommandWord.ADD) && (tableName.equals("Properties"))){
                 Property newProperty = ( Property ) command.getDataObject();
-
-                PreparedStatement add = dbConnection.prepareStatement("insert into " + tableName + " values (?,?,?,?,?,?,?,?,?,?,?)");
+                String sql = "insert into " + tableName + " values (?,?,?,?,?,?,?,?,?,?,?)";
+                PreparedStatement add = dbConnection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE);
 
                 add.setString(1, newProperty.getPropertyID());
                 add.setString(2, newProperty.getAddress());
@@ -106,7 +124,7 @@ public class Server {
             } // next case we get a tenant to add to the tenants table
             else if ( (command.getCommand() == CommandWord.ADD) && ( tableName.equals("Tenants")) ){
                 Tenant newTenant = ( Tenant ) command.getDataObject();
-                PreparedStatement add = dbConnection.prepareStatement("insert into Tenants values (?,?,?,?,?,?)");
+                PreparedStatement add = dbConnection.prepareStatement("insert into Tenants values (?,?,?,?,?,?)", ResultSet.TYPE_SCROLL_INSENSITIVE);
                 add.setString(1, newTenant.getIdNumber());
                 add.setString(2, newTenant.getFirstName());
                 add.setString(3, newTenant.getLastName());
@@ -122,7 +140,11 @@ public class Server {
                 System.out.println("written out done ");
             }// next case we get a statement from client asking for data
             else if (command.getCommand() == CommandWord.RETRIEVE){
-                //we'll have to implement new class
+                String sql = ( String ) command.getDataObject();
+                //Statement statement = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                //ResultSet retrieveResult = statement.executeQuery(sql);
+
+                output.writeObject( makeModel(sql));
             } // next case we want to send billing data back
 
         } catch (ClassNotFoundException ex){
@@ -145,6 +167,49 @@ public class Server {
             System.out.println("Can't d/c from db");
         }
     }
+
+    private ResultSetModel makeModel(String sqlQuery){
+        ResultSetModel model = null;
+        try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            ArrayList<ArrayList<Object>> table = new ArrayList<ArrayList<Object>>();
+
+            for(int column = 0; column < metaData.getColumnCount(); column++ ){
+                table.add(new ArrayList<Object>());
+                table.get(0).add(metaData.getColumnName(column + 1))  ;
+            }
+
+            int row = 0;
+            while(resultSet.next()){
+                row++;
+                table.add(new ArrayList<Object>());
+                for(int column = 1; column < columnCount; column++){
+                    if(metaData.getColumnClassName(column).equals("java.lang.String"))
+                        table.get(row).add(resultSet.getString(column));
+                    if(metaData.getColumnClassName(column).equals("java.sql.Date"))
+                        table.get(row).add(resultSet.getDate(column));
+                    if(metaData.getColumnClassName(column).equals("java.lang.Integer"))
+                        table.get(row).add(resultSet.getInt(column));
+                    if(metaData.getColumnClassName(column).equals("java.lang.Float"))
+                        table.get(row).add(resultSet.getFloat(column));
+                }
+            }
+
+            resultSet.last();
+            int rowCount = resultSet.getRow();
+            model = new ResultSetModel(table, rowCount, columnCount);
+
+        } catch (
+                SQLException e) {
+
+            e.printStackTrace();
+        }
+        return model;
+    }
 //code to test our server
     public static void main(String[] args){
 
@@ -152,6 +217,7 @@ public class Server {
             Socket client;
             ObjectOutputStream output;
             ObjectInputStream input;
+
             public void runClient(){
                 try{
                     connectToServer();

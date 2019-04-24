@@ -9,11 +9,11 @@
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * Tenant object that represents a tenant that we have in a db.
+ */
 public class Tenant implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -7521390664523300588L;
     private String idNumber;
     private String firstName;

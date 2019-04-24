@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 /**
- * Class Description
+ * The frame where the app starts it is where our Tabbed Pane lives.
  *
  * @author Marcus Trujillo
  * @version CS2251 - Intermediate Programming

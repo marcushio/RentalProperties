@@ -8,8 +8,16 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+/**
+ * DbUtils is a utility class that helps with communication to a database.
+ */
 
 public class DbUtils {
+	/**
+	 * Creates a table model from a result set so that the results are displayable.
+	 * @param rs ResultSet
+	 * @return TableModel
+	 */
     public static TableModel resultSetToTableModel(ResultSet rs) {
 	try {
 	    ResultSetMetaData metaData = rs.getMetaData();
@@ -42,6 +50,12 @@ public class DbUtils {
 	}
     }
 
+	/**
+	 * Turns results to a nested list. Created for flexibility
+	 * @param rs resultSet
+	 * @param includeColumnNames
+	 * @return
+	 */
     public static List<List<Object>> resultSetToNestedList(ResultSet rs, boolean includeColumnNames) {
 	try {
 	    // To contain all rows.

@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 enum CommandWord{
-	ADD, DELETE, SEARCH, RETRIEVE ;
+	ADD, DELETE, SEARCH, RETRIEVE, UPDATE ;
 }
 
 public class Command implements Serializable {

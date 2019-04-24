@@ -99,23 +99,31 @@ public class Server {
                 addToTenants(command);
             }// next case we get a statement from client asking for data
             else if (command.getCommand() == CommandWord.RETRIEVE){
-                String sql = ( String ) command.getDataObject();
-                //Statement statement = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                //ResultSet retrieveResult = statement.executeQuery(sql);
-                Connection connection = DriverManager.getConnection(url, user, password);
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                ResultSet resultSet = statement.executeQuery(sql);
-                TableModel model = DbUtils.resultSetToTableModel(resultSet);
-                output.writeObject( model );
+                retrieveData(command);
+            } else if (command.getCommand() == CommandWord.DELETE){ //we want to delete something
+                deleteData(command);
             }
+
         } catch (ClassNotFoundException ex){
             System.out.println("Bad Data sent from client ");
-        } catch (SQLException ex ){
-            System.out.println("SQL exception.");
+        }
+    }
+    private void retrieveData(Command command){
+        try {
+            String sql = (String) command.getDataObject();
+            Connection connection = DriverManager.getConnection(url, user, password);
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet resultSet = statement.executeQuery(sql);
+            TableModel model = DbUtils.resultSetToTableModel(resultSet);
+            output.writeObject(model);
+        } catch (Exception ex){
             ex.printStackTrace();
         }
     }
-
+    /**
+     *
+     * @param command
+     */
     private void addToProperties(Command command){
         try {
             Connection dbConnection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student");
@@ -136,11 +144,10 @@ public class Server {
             add.setDate(9, java.sql.Date.valueOf(date));
             add.setString(10, newProperty.getTenantID());
             add.setString(11, newProperty.getFullDescription());
-            System.out.println(add.toString());
 
             System.out.println("about to do the execute");
             int row = add.executeUpdate();
-            System.out.println("executed done row:  " + row + "  was effected. Time to write out");
+            System.out.println("Execution complete: " + row + "  was effected.");
             // i don't think the client needs to know which row we wrote to
             // output.writeObject(row);
             System.out.println("written out done ");
@@ -170,6 +177,17 @@ public class Server {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void deleteData(Command command){
+        try( Connection connection = DriverManager.getConnection(url, user, password) ) {
+            String sql = (String) command.getDataObject();
+            Statement add = connection.createStatement();
+            add.executeUpdate(sql);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+
     }
 
     private void closeConnection(){
@@ -239,49 +257,9 @@ public class Server {
     }
 //code to test our server
     public static void main(String[] args){
-
-        class Client{
-            Socket client;
-            ObjectOutputStream output;
-            ObjectInputStream input;
-
-            public void runClient(){
-                try{
-                    connectToServer();
-                    getStreams();
-                    processConnection();
-                } catch (Exception ex){
-                    System.out.println("Problem while running client");
-                }
-            }
-            private void connectToServer() throws IOException{
-                client = new Socket("127.0.0.1", 12345);
-            }
-            private void getStreams() throws IOException{
-                output = new ObjectOutputStream(client.getOutputStream());
-                output.flush();
-                input = new ObjectInputStream(client.getInputStream());
-            }
-            private void processConnection(){
-                try{
-                    Property testProp = new Property();
-                    testProp.setToDefault();
-                    System.out.println("sending property from client");
-                    output.writeObject(testProp);
-                } catch(Exception ex){
-                    System.out.println("Exception while testing");
-
-                }
-            }
-        }
         System.out.println("Creating new server...");
         Server server = new Server();
         System.out.println("Attempting to run server");
         server.runServer();
-        System.out.println("Making new client to test server...");
-        Client client = new Client();
-        client.runClient();
-
-
     }
 }

@@ -6,7 +6,7 @@ CREATE TABLE Properties
 (
     PropertyID VARCHAR(12) NOT NULL, 
 	Address VARCHAR (80) NOT NULL, 
-Bedrooms INT NOT NULL, 
+    Bedrooms INT NOT NULL, 
 	Bathrooms FLOAT (2) NOT NULL, 
 	AdditionalInfo VARCHAR (80), 
 	RentAmount FLOAT (2) NOT NULL, 

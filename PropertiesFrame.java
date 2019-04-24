@@ -429,10 +429,10 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             newProperty.setAvailable(AvailabilityTxt.getText());
             newProperty.setDateAvailable(LocalDate.parse(AvailDateTxt.getText()));
             newProperty.setTenantID(TenantIDTxt.getText());
-            connectToServer();
-            getStreams();
 
             Command command = new Command("Properties", newProperty, CommandWord.ADD);
+            connectToServer();
+            getStreams();
             output.writeObject(command);
 
             //this will be redundant, can be deleted after refactoring
@@ -446,7 +446,6 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             String avail = AvailabilityTxt.getText();
             String availDate = AvailDateTxt.getText();
             String tenantID = TenantIDTxt.getText();
-
 //marked for removal
              /*
             PreparedStatement add = con.prepareStatement(
@@ -482,11 +481,13 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
-            //marked for removal
-            //String sql = "Delete from properties where propertyID = '" + PropIDTxt.getText() + "'";
-            String sql = "Delete from Properties where PropertyID = '" + PropIDTxt.getText() + "'";
-            Statement add = con.createStatement();
-            add.executeUpdate(sql);
+            String sql = sql = "Delete from Properties where PropertyID = '" + PropIDTxt.getText() + "'";
+            Command command = new Command("Properties", sql, CommandWord.DELETE );
+
+            connectToServer();
+            getStreams();
+            output.writeObject(command);
+
             PropIDTxt.setText("");
             AddressTxt.setText("");
             BedTxt.setText("");
@@ -498,7 +499,14 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             AvailDateTxt.setText("");
             TenantIDTxt.setText("");
 
-        } catch (SQLException E) {
+            //marked for removal once refactoring is done
+            /*
+            String sql = "Delete from Properties where PropertyID = '" + PropIDTxt.getText() + "'";
+            Statement add = con.createStatement();
+            add.executeUpdate(sql);
+
+            */
+        } catch (Exception E) {
             E.printStackTrace();
         }
         selectional();

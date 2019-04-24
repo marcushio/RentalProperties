@@ -2,60 +2,75 @@
  * Class Description
  *
  * @author Marcus Trujillo
+ * @author Tatiana Nassiri
  * @version CS2251 - Intermediate Programming
  * email: mtrujillo255@cnm.edu
  * assignment due date:
  */
-/*
-CREATE TABLE "TENANT" (
-    "ID" INTEGER not null primary key,
-    "LASTNAME" VARCHAR(30),
-    "FIRSTNAME" VARCHAR(30),
-    "PHONENUMBER" VARCHAR(20),
-    "RENTPAID" DATE,
-    "EMAIL" VARCHAR(60),
-);
 
-INSERT INTO RENTALS.TENANT (ID, LASTNAME, FIRSTNAME, PHONENUMBER, RENTPAID, EMAIL)
-	VALUES (3, 'Smith', 'Jack', '505-258-9856', 1, '2019-04-01', 'j.smith@gmail.com')
-INSERT INTO RENTALS.TENANT (ID, LASTNAME, FIRSTNAME, PHONENUMBER, RENTPAID, EMAIL)
-	VALUES (10, 'Collins', 'Merry', '505-254-7878', '2019-04-01', 'm.collins@gmail.com')
-*/
-
-/*
-
-
-INSERT INTO RENTALS.PROPERTIES (PROPID, ADDRESS, BED, BATH, ADDITIONALINFO, RENTAMOUNT, TERMS, AVAILABILITY, TENANT_ID)
-	VALUES (1, '2345 Montgomery Ave NE', 3, 2, 'garage, front/back yard', '1300', 'first, last mont and sec. deposit, $25/day late fee', 'Not Available', 3)
-
-*/
+import javax.swing.table.TableModel;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class PropertiesFrame extends javax.swing.JInternalFrame {
-
+    //marked for removal
     private Connection con = null;
     private Statement st = null;
     private ResultSet rs = null;
+
+    //Our objects for connection to server
+    Socket client;
+    ObjectOutputStream output;
+    ObjectInputStream input;
 
     public PropertiesFrame() {
         initComponents();
         selectional();
     }
 
+    /**
+     * Selects the model that we're going to use to display data on the Jtable
+     */
     public final void selectional() {
         try {
-            con = DriverManager.getConnection("jdbc:derby:RentalData", "student", "student");
-            st = con.createStatement();
-            rs = st.executeQuery("select * from Properties");
-            Properties2.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (SQLException e) {
+            connectToServer();
+            getStreams();
+            Command command = new Command("Properties", "SELECT * FROM Properties", CommandWord.RETRIEVE );
+            output.writeObject(command);
+            TableModel model  = (TableModel) input.readObject();
+            Properties2.setModel(model);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }finally {
+            closeConnection();
+        }
 
-            e.printStackTrace();
+    }
+    private void connectToServer() throws IOException {
+        client = new Socket("127.0.0.1", 12345);
+    }
+    private void getStreams() throws IOException{
+        output = new ObjectOutputStream(client.getOutputStream());
+        output.flush();
+        input = new ObjectInputStream(client.getInputStream());
+    }
+    private void closeConnection(){
+        try {
+            output.close();
+            input.close();
+            client.close();
+        } catch (Exception ex){
+            //can we print error in JFrame?
+            ex.printStackTrace();
         }
     }
     @SuppressWarnings("unchecked")
@@ -402,8 +417,25 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     }
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
         try {
+            Property newProperty = new Property();
+            newProperty.setPropertyID(PropIDTxt.getText());
+            newProperty.setAddress(AddressTxt.getText());
+            newProperty.setBedrooms( Integer.parseInt(BedTxt.getText()));
+            newProperty.setBathrooms( Float.parseFloat(BathTxt.getText()));
+            newProperty.setInfo(AdditionalTxt.getText());
+            newProperty.setCost(Float.parseFloat(RentAmountTxt.getText()));
+            newProperty.setTerms(TermsTxt.getText());
+            newProperty.setAvailable(AvailabilityTxt.getText());
+            newProperty.setDateAvailable(LocalDate.parse(AvailDateTxt.getText()));
+            newProperty.setTenantID(TenantIDTxt.getText());
+            connectToServer();
+            getStreams();
+
+            Command command = new Command("Properties", newProperty, CommandWord.ADD);
+            output.writeObject(command);
+
+            //this will be redundant, can be deleted after refactoring
             String ID = PropIDTxt.getText();
             String address = AddressTxt.getText();
             String numBedrooms = BedTxt.getText();
@@ -415,7 +447,8 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             String availDate = AvailDateTxt.getText();
             String tenantID = TenantIDTxt.getText();
 
-
+//marked for removal
+             /*
             PreparedStatement add = con.prepareStatement(
                     "insert Into properties (PropertyID,Address,Bedrooms,Bathrooms,AdditionalInfo,RentAmount,RentType,Available,AvailableDate,tenantID) values (?,?,?,?,?,?,?,?,?,?)"); //we'll have to add space for other cols
 
@@ -431,9 +464,9 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             add.setString(10, tenantID);
 
             add.executeUpdate();
-
-        } catch (SQLException E) {
-            E.printStackTrace();
+            */
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         selectional();
     }
@@ -449,6 +482,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
+            //marked for removal
             //String sql = "Delete from properties where propertyID = '" + PropIDTxt.getText() + "'";
             String sql = "Delete from Properties where PropertyID = '" + PropIDTxt.getText() + "'";
             Statement add = con.createStatement();
@@ -471,7 +505,6 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     }
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
         String propertyID = PropIDTxt.getText();
         String address = AddressTxt.getText();
         String numBeds = BedTxt.getText();
@@ -501,6 +534,8 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             System.out.println(err.getMessage());
         }
         try {
+            //marked for removal
+
             String sql = "update properties set propertyID = " + PropIDTxt.getText() +
                          " ,Address = '" + AddressTxt.getText() +
                          "' ,Bedrooms = '" + BedTxt.getText() +
@@ -515,6 +550,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
 
             Statement update = con.createStatement();
             update.executeUpdate(sql);
+
         } catch (SQLException E) {
             E.printStackTrace();
         }

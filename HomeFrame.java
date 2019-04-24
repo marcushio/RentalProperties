@@ -17,13 +17,13 @@ public class HomeFrame extends JFrame {
     public HomeFrame(){
         //create and add components to our tabs
         tabs = new JTabbedPane();
-        tenantsFrame = new TenantsFrame();
+        //tenantsFrame = new TenantsFrame();
         propertiesFrame = new PropertiesFrame();
-        billingFrame = new BillingFrame();
+        //billingFrame = new BillingFrame();
 
-        tabs.addTab("Tenants", tenantsFrame );
+        //tabs.addTab("Tenants", tenantsFrame );
         tabs.addTab("Properties", propertiesFrame);
-        tabs.addTab("Billing", billingFrame);
+        //tabs.addTab("Billing", billingFrame);
         add(tabs);
         pack();
         setVisible(true);

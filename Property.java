@@ -13,7 +13,7 @@ public class Property implements Serializable {
     String propertyID;
     String address;
     int bedrooms;
-    int bathrooms;
+    float bathrooms;
     String info;
     float cost;
     String terms;
@@ -39,7 +39,7 @@ public class Property implements Serializable {
         return cost;
     }
 
-    public int getBathrooms() {
+    public float getBathrooms() {
         return bathrooms;
     }
 
@@ -81,7 +81,7 @@ public class Property implements Serializable {
         this.bedrooms = bedrooms;
     }
 
-    public void setBathrooms(int bathrooms) {
+    public void setBathrooms(float bathrooms) {
         this.bathrooms = bathrooms;
     }
 

@@ -6,6 +6,8 @@
  * email: mtrujillo255@cnm.edu
  * assignment due date:
  */
+import org.apache.derby.client.am.SqlException;
+
 import java.io.*;
 import java.net.*;
 import java.sql.*;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.sql.*;
 import javax.swing.plaf.nimbus.State;
+import javax.swing.table.TableModel;
 
 /**
  * This is what does the bulk of the work for dealing with data. It connects to the database to get the data the client
@@ -48,9 +51,7 @@ public class Server {
                 try{
                     waitForConnection();
                     getStreams();
-                    System.out.println("about to process connection...");
                     processConnection();
-                    System.out.println("processed connection");
                 } catch (EOFException ex){
                     //maybe send a message or something?
                 }finally{
@@ -79,7 +80,6 @@ public class Server {
         output = new ObjectOutputStream(clientConnection.getOutputStream());
         output.flush();
         input = new ObjectInputStream(clientConnection.getInputStream());
-        System.out.println("Got IO Streams");
     }
 
     /**
@@ -88,69 +88,86 @@ public class Server {
      */
     private void processConnection() throws IOException{
         try {
-            //we can have a few objects come through the pipeline, let's handle each accordingly
-            //case 1 we get a Property to add to the properties table
             Command command = ( Command ) input.readObject();
-            System.out.println("Object in and read.");
-            String tableName = command.getTableName();
-            System.out.println("table name is " + tableName);
             CommandWord commandWord = command.getCommand();
-            System.out.println(commandWord);
-            if ( (commandWord == CommandWord.ADD) && (tableName.equals("Properties"))){
-                Property newProperty = ( Property ) command.getDataObject();
-                String sql = "insert into " + tableName + " values (?,?,?,?,?,?,?,?,?,?,?)";
-                PreparedStatement add = dbConnection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE);
+            String tableName = command.getTableName();
 
-                add.setString(1, newProperty.getPropertyID());
-                add.setString(2, newProperty.getAddress());
-                add.setInt(3, newProperty.getBedrooms());
-                add.setInt(4, newProperty.getBathrooms());
-                add.setString(5, newProperty.getInfo());
-
-                add.setFloat(6, newProperty.getCost());
-                add.setString(7, newProperty.getTerms());
-                add.setString(8, newProperty.getAvailable());
-                LocalDate date = newProperty.getDateAvailable();
-                add.setDate(9, java.sql.Date.valueOf(date));
-                add.setString(10, newProperty.getTenantID());
-                add.setString(11, newProperty.getFullDescription());
-                System.out.println(add.toString());
-
-                System.out.println("about to do the execute");
-                int row = add.executeUpdate();
-                System.out.println("executed done row:  " + row + "  was effected. Time to write out");
-                output.writeObject(row);
-                System.out.println("written out done ");
+            if ( (commandWord == CommandWord.ADD) && (tableName.equals("Properties"))){ // we have a property to add to db
+                addToProperties(command);
             } // next case we get a tenant to add to the tenants table
             else if ( (command.getCommand() == CommandWord.ADD) && ( tableName.equals("Tenants")) ){
-                Tenant newTenant = ( Tenant ) command.getDataObject();
-                PreparedStatement add = dbConnection.prepareStatement("insert into Tenants values (?,?,?,?,?,?)", ResultSet.TYPE_SCROLL_INSENSITIVE);
-                add.setString(1, newTenant.getIdNumber());
-                add.setString(2, newTenant.getFirstName());
-                add.setString(3, newTenant.getLastName());
-                add.setString(4, newTenant.getCellphone());
-                LocalDate date = newTenant.getRentPaid(); //we're using local date because date is pretty deprecated at this point
-                add.setDate(5, java.sql.Date.valueOf(date));
-                add.setString(6, newTenant.getEmail());
-
-                System.out.println("about to do the execute for tenant");
-                int row = add.executeUpdate();
-                System.out.println("executed done, now about to write out");
-                output.writeObject(row);
-                System.out.println("written out done ");
+                addToTenants(command);
             }// next case we get a statement from client asking for data
             else if (command.getCommand() == CommandWord.RETRIEVE){
                 String sql = ( String ) command.getDataObject();
                 //Statement statement = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 //ResultSet retrieveResult = statement.executeQuery(sql);
-
-                output.writeObject( makeModel(sql));
-            } // next case we want to send billing data back
-
+                Connection connection = DriverManager.getConnection(url, user, password);
+                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                ResultSet resultSet = statement.executeQuery(sql);
+                TableModel model = DbUtils.resultSetToTableModel(resultSet);
+                output.writeObject( model );
+            }
         } catch (ClassNotFoundException ex){
             System.out.println("Bad Data sent from client ");
         } catch (SQLException ex ){
             System.out.println("SQL exception.");
+            ex.printStackTrace();
+        }
+    }
+
+    private void addToProperties(Command command){
+        try {
+            Connection dbConnection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student");
+            String tableName = command.getTableName();
+            Property newProperty = (Property) command.getDataObject();
+            String sql = "insert into " + tableName + " values (?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement add = dbConnection.prepareStatement(sql);//ResultSet.TYPE_SCROLL_INSENSITIVE if we use other model making
+
+            add.setString(1, newProperty.getPropertyID());
+            add.setString(2, newProperty.getAddress());
+            add.setInt(3, newProperty.getBedrooms());
+            add.setFloat(4, newProperty.getBathrooms());
+            add.setString(5, newProperty.getInfo());
+            add.setFloat(6, newProperty.getCost());
+            add.setString(7, newProperty.getTerms());
+            add.setString(8, newProperty.getAvailable());
+            LocalDate date = newProperty.getDateAvailable();
+            add.setDate(9, java.sql.Date.valueOf(date));
+            add.setString(10, newProperty.getTenantID());
+            add.setString(11, newProperty.getFullDescription());
+            System.out.println(add.toString());
+
+            System.out.println("about to do the execute");
+            int row = add.executeUpdate();
+            System.out.println("executed done row:  " + row + "  was effected. Time to write out");
+            // i don't think the client needs to know which row we wrote to
+            // output.writeObject(row);
+            System.out.println("written out done ");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private void addToTenants(Command command){
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student");
+            Tenant newTenant = (Tenant) command.getDataObject();
+            PreparedStatement add = dbConnection.prepareStatement("insert into Tenants values (?,?,?,?,?,?)");
+            add.setString(1, newTenant.getIdNumber());
+            add.setString(2, newTenant.getFirstName());
+            add.setString(3, newTenant.getLastName());
+            add.setString(4, newTenant.getCellphone());
+            LocalDate date = newTenant.getRentPaid(); //we're using local date because java's Date is pretty deprecated at this point
+            add.setDate(5, java.sql.Date.valueOf(date));
+            add.setString(6, newTenant.getEmail());
+
+            System.out.println("about to do the execute for tenant");
+            int row = add.executeUpdate();
+            System.out.println("executed done, now about to write out");
+            output.writeObject(row);
+            System.out.println("written out done ");
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -168,7 +185,18 @@ public class Server {
         }
     }
 
-    private ResultSetModel makeModel(String sqlQuery){
+
+    private TableModel makeModel(String sqlQuery){
+        ResultSet resultSet = null;
+        try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")) {
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            resultSet = statement.executeQuery(sqlQuery);
+        } catch ( SQLException ex){
+            ex.printStackTrace();
+        }
+        return DbUtils.resultSetToTableModel(resultSet);
+
+        /*
         ResultSetModel model = null;
         try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -203,12 +231,11 @@ public class Server {
             int rowCount = resultSet.getRow();
             model = new ResultSetModel(table, rowCount, columnCount);
 
-        } catch (
-                SQLException e) {
-
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return model;
+        */
     }
 //code to test our server
     public static void main(String[] args){

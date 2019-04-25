@@ -3,6 +3,7 @@ connect 'jdbc:derby:RentalData;create=true;user=student; password=student';
 
 DROP TABLE Properties;
 CREATE TABLE Properties
+
 (
     PropertyID VARCHAR(12) NOT NULL, 
 	Address VARCHAR (80) NOT NULL, 
@@ -13,10 +14,11 @@ CREATE TABLE Properties
 	RentType VARCHAR (10) NOT NULL, 
 	Available VARCHAR (4) NOT NULL, 
 	AvailableDate DATE NOT NULL,
-	TenantId VARCHAR(12) NOT NULL,
+	TenantId VARCHAR(12) FOREIGN KEY REFERENCES Tenants(TenantID),
 	Description VARCHAR (255),
 	 PRIMARY KEY (PropertyID)
 );
+//FOREIGN KEY (TenantID) REFERENCES Properties(TenantID),
 
 INSERT INTO Properties (PropertyID, Address, Bedrooms,Bathrooms,AdditionalInfo , 
 	RentAmount ,RentType ,Available ,AvailableDate, TenantId ,Description )

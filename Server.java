@@ -102,10 +102,10 @@ public class Server {
             } else if (command.getCommand() == CommandWord.DELETE){ //we want to delete something
                 deleteData(command);
             }
-			else if(command.getCommand() == CommandWord.UPDATE) && (tableName.equals("Properties"))) {
+			else if((command.getCommand() == CommandWord.UPDATE) && (tableName.equals("Properties"))) {
 				updateProperties(command);
 			}
-			else if(command.getCommand() == CommandWord.UPDATE) && (tableName.equals("Tenants"))) {
+			else if((command.getCommand() == CommandWord.UPDATE) && (tableName.equals("Tenants"))) {
 				updateTenants(command);
 			}
 
@@ -195,42 +195,33 @@ public class Server {
 	public void updateProperties(Command command) {
 		try( Connection connection = DriverManager.getConnection(url, user, password) ) {
             String sql = (String) command.getDataObject();
-            Statement update = connection.createStatement();
-			Property newProperty = (Property) command.getDataObject();
-            String sql = "update rentaldata.Properties set PropertyID = '" + newProperty.getPropertyID()+
-                         "' ,Address = '"+newProperty.getAddress()+
-                         "' ,Bedrooms = '"+newProperty.getBedrooms()+
-                         "' ,Bathrooms = '" +newProperty.getBathrooms() + 
-						 "' ,Info = '"+newProperty.getInfo()+
-						 "' ,Cost = '"+newProperty.getCost()+
-                         "' ,Terms = '"+newProperty.getTerms()+
-                         "' ,Available = '" +newProperty.getAvailable()+
-						 "' ,DateAvailable = '"+newProperty.getDateAvailable()+
-						 "' ,TenantID = '"+newProperty.getTenantID()+
-						 "' ,Description = '"+newProperty.getFullDescription()+
-                         "' where ID = "+newProperty.getPropertyID()+"";
-            PreparedStatement update = dbConnection.prepareStatement(sql);
 
+            PreparedStatement update = dbConnection.prepareStatement(sql);
             update.executeUpdate(sql);
+            /*
+            Statement update = connection.createStatement();
+            String sql = "update rentaldata.Properties set PropertyID = '" + newProperty.getPropertyID()+
+                    "' ,Address = '"+newProperty.getAddress()+
+                    "' ,Bedrooms = '"+newProperty.getBedrooms()+
+                    "' ,Bathrooms = '" +newProperty.getBathrooms() +
+                    "' ,Info = '"+newProperty.getInfo()+
+                    "' ,Cost = '"+newProperty.getCost()+
+                    "' ,Terms = '"+newProperty.getTerms()+
+                    "' ,Available = '" +newProperty.getAvailable()+
+                    "' ,DateAvailable = '"+newProperty.getDateAvailable()+
+                    "' ,TenantID = '"+newProperty.getTenantID()+
+                    "' ,Description = '"+newProperty.getFullDescription()+
+                    "' where ID = "+newProperty.getPropertyID()+"";
+                    */
         } catch (SQLException ex){
             ex.printStackTrace();
         }
 	}
 
 	public void updateTenants(Command command) {
-		try( Connection connection = DriverManager.getConnection(url, user, password) ) {
+		try {
             String sql = (String) command.getDataObject();
-            Statement update = connection.createStatement();
-			Property newTenant = (Tenant) command.getDataObject();
-            String sql = "update rentaldata.Tenants set TenantID = '" + newTenant.getIdNumber()+
-                         "' ,FirstName = '"+newTenant.getFirstName()+
-                         "' ,LastName = '"+newTenat.getLastName()+
-                         "' ,Cellphone = '" +newTenant.getCellphone() + 
-						 "' ,LocalDate = '"+newTenant.getRentPaid()+
-						 "' ,Email = '"+newTenant.getEmail()+
-                         "' where ID = "+newTenant.getIdNumber()+"";
             PreparedStatement update = dbConnection.prepareStatement(sql);
-
             update.executeUpdate(sql);
         } catch (SQLException ex){
             ex.printStackTrace();
@@ -248,7 +239,6 @@ public class Server {
             System.out.println("Can't d/c from db");
         }
     }
-
 
     private TableModel makeModel(String sqlQuery){
         ResultSet resultSet = null;

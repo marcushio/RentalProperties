@@ -6,7 +6,6 @@
  * email: mtrujillo255@cnm.edu
  * assignment due date:
  */
-import org.apache.derby.client.am.SqlException;
 
 import java.io.*;
 import java.net.*;
@@ -53,7 +52,7 @@ public class Server {
                     getStreams();
                     processConnection();
                 } catch (EOFException ex){
-                    //maybe send a message or something?
+					ex.printStackTrace();
                 }finally{
                     closeConnection();
                 }
@@ -103,6 +102,12 @@ public class Server {
             } else if (command.getCommand() == CommandWord.DELETE){ //we want to delete something
                 deleteData(command);
             }
+			else if(command.getCommand() == CommandWord.UPDATE) && (tableName.equals("Properties"))) {
+				updateProperties(command);
+			}
+			else if(command.getCommand() == CommandWord.UPDATE) && (tableName.equals("Tenants"))) {
+				updateTenants(command);
+			}
 
         } catch (ClassNotFoundException ex){
             System.out.println("Bad Data sent from client ");
@@ -148,8 +153,6 @@ public class Server {
             System.out.println("about to do the execute");
             int row = add.executeUpdate();
             System.out.println("Execution complete: " + row + "  was effected.");
-            // i don't think the client needs to know which row we wrote to
-            // output.writeObject(row);
             System.out.println("written out done ");
         }catch (Exception ex){
             ex.printStackTrace();
@@ -182,14 +185,57 @@ public class Server {
     private void deleteData(Command command){
         try( Connection connection = DriverManager.getConnection(url, user, password) ) {
             String sql = (String) command.getDataObject();
-            Statement add = connection.createStatement();
-            add.executeUpdate(sql);
+            Statement delete = connection.createStatement();
+            delete.executeUpdate(sql);
         } catch (Exception ex){
             ex.printStackTrace();
         }
 
     }
+	public void updateProperties(Command command) {
+		try( Connection connection = DriverManager.getConnection(url, user, password) ) {
+            String sql = (String) command.getDataObject();
+            Statement update = connection.createStatement();
+			Property newProperty = (Property) command.getDataObject();
+            String sql = "update rentaldata.Properties set PropertyID = '" + newProperty.getPropertyID()+
+                         "' ,Address = '"+newProperty.getAddress()+
+                         "' ,Bedrooms = '"+newProperty.getBedrooms()+
+                         "' ,Bathrooms = '" +newProperty.getBathrooms() + 
+						 "' ,Info = '"+newProperty.getInfo()+
+						 "' ,Cost = '"+newProperty.getCost()+
+                         "' ,Terms = '"+newProperty.getTerms()+
+                         "' ,Available = '" +newProperty.getAvailable()+
+						 "' ,DateAvailable = '"+newProperty.getDateAvailable()+
+						 "' ,TenantID = '"+newProperty.getTenantID()+
+						 "' ,Description = '"+newProperty.getFullDescription()+
+                         "' where ID = "+newProperty.getPropertyID()+"";
+            PreparedStatement update = dbConnection.prepareStatement(sql);
 
+            update.executeUpdate(sql);
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+	}
+
+	public void updateTenants(Command command) {
+		try( Connection connection = DriverManager.getConnection(url, user, password) ) {
+            String sql = (String) command.getDataObject();
+            Statement update = connection.createStatement();
+			Property newTenant = (Tenant) command.getDataObject();
+            String sql = "update rentaldata.Tenants set TenantID = '" + newTenant.getIdNumber()+
+                         "' ,FirstName = '"+newTenant.getFirstName()+
+                         "' ,LastName = '"+newTenat.getLastName()+
+                         "' ,Cellphone = '" +newTenant.getCellphone() + 
+						 "' ,LocalDate = '"+newTenant.getRentPaid()+
+						 "' ,Email = '"+newTenant.getEmail()+
+                         "' where ID = "+newTenant.getIdNumber()+"";
+            PreparedStatement update = dbConnection.prepareStatement(sql);
+
+            update.executeUpdate(sql);
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+	}
     private void closeConnection(){
         try {
             output.close();
@@ -213,47 +259,6 @@ public class Server {
             ex.printStackTrace();
         }
         return DbUtils.resultSetToTableModel(resultSet);
-
-        /*
-        ResultSetModel model = null;
-        try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
-            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet resultSet = statement.executeQuery(sqlQuery);
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
-
-            ArrayList<ArrayList<Object>> table = new ArrayList<ArrayList<Object>>();
-
-            for(int column = 0; column < metaData.getColumnCount(); column++ ){
-                table.add(new ArrayList<Object>());
-                table.get(0).add(metaData.getColumnName(column + 1))  ;
-            }
-
-            int row = 0;
-            while(resultSet.next()){
-                row++;
-                table.add(new ArrayList<Object>());
-                for(int column = 1; column < columnCount; column++){
-                    if(metaData.getColumnClassName(column).equals("java.lang.String"))
-                        table.get(row).add(resultSet.getString(column));
-                    if(metaData.getColumnClassName(column).equals("java.sql.Date"))
-                        table.get(row).add(resultSet.getDate(column));
-                    if(metaData.getColumnClassName(column).equals("java.lang.Integer"))
-                        table.get(row).add(resultSet.getInt(column));
-                    if(metaData.getColumnClassName(column).equals("java.lang.Float"))
-                        table.get(row).add(resultSet.getFloat(column));
-                }
-            }
-
-            resultSet.last();
-            int rowCount = resultSet.getRow();
-            model = new ResultSetModel(table, rowCount, columnCount);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return model;
-        */
     }
 //code to test our server
     public static void main(String[] args){

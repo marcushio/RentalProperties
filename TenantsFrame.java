@@ -29,6 +29,11 @@ INSERT INTO RENTALS.PROPERTIES (PROPID, ADDRESS, BED, BATH, ADDITIONALINFO, RENT
 	VALUES (1, '2345 Montgomery Ave NE', 3, 2, 'garage, front/back yard', '1300', 'first, last mont and sec. deposit, $25/day late fee', 'Not Available', 3)
 
 */
+import javax.swing.table.TableModel;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -38,10 +43,16 @@ import java.sql.Statement;
 import java.time.LocalDate;
 
 public class TenantsFrame extends javax.swing.JInternalFrame{
-
     private Connection con = null;
     private Statement st = null;
     private ResultSet rs = null;
+    private String tableName = "Tenants";
+    private String host = "127.0.0.1";
+
+    Socket client;
+    ObjectOutputStream output;
+    ObjectInputStream input;
+
 
     public TenantsFrame() {
         initComponents();
@@ -50,13 +61,38 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
     public final void selectional() {
         try {
-            con = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student");
-            st = con.createStatement();
-            rs = st.executeQuery("select * from tenants");
-            Tenants2.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (SQLException e) {
-
+            connectToServer();
+            getStreams();
+            Command command = new Command("Properties", "SELECT * FROM Properties", CommandWord.RETRIEVE );
+            output.writeObject(command);
+            TableModel model  = (TableModel) input.readObject();
+            Tenants2.setModel(model);
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void connectToServer() throws IOException {
+        client = new Socket(host , 12345);
+    }
+
+    private void getStreams() throws IOException{
+        output = new ObjectOutputStream(client.getOutputStream());
+        output.flush();
+        input = new ObjectInputStream(client.getInputStream());
+    }
+
+    /**
+     * Once we're finished with the connection of the server then we can just close all the connections that we've
+     */
+    private void closeConnection(){
+        try {
+            output.close();
+            input.close();
+            client.close();
+        } catch (Exception ex){
+            //can we print error in JFrame?
+            ex.printStackTrace();
         }
     }
 
@@ -294,9 +330,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
             add.setString(4, PhoneNumber);
             add.setDate(5, java.sql.Date.valueOf(RentPaid));
             add.setString(6,Email);
-
-            int row = add.executeUpdate();
-
+            int row = add.executeUpdate(); //we don't update so saving to int row might not be necessary
         } catch (SQLException E) {
             E.printStackTrace();
         }
@@ -313,7 +347,6 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            //String sql = "Delete from tenants where TenantID = '" + IDTxt.getText() + "'";
             String sql = "Delete from Tenants where TenantID = '" + IDTxt.getText() + "'";
             Statement add = con.createStatement();
             add.executeUpdate(sql);
@@ -323,7 +356,6 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
             PNTxt.setText("");
             RPTxt.setText("");
             ETxt.setText("");
-
         } catch (SQLException E) {
             E.printStackTrace();
         }
@@ -331,40 +363,27 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
     }
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String ID = IDTxt.getText();
-        String last = LNTxt.getText();
-        String first = FNTxt.getText();
-        String phone = PNTxt.getText();
-        String email = ETxt.getText();
-        //String Prop = PRTxt.getText();
-        String date = RPTxt.getText();
+        //make a command that does all this.
+        try{
+        String query = "update tenants set TenantID = '" + IDTxt.getText()+
+                "' ,LastName = '"+LNTxt.getText()+
+                "' ,FirstName = '"+FNTxt.getText()+
+                "' ,PhoneNumber =" + " '"+PNTxt.getText()+
+                "',RentPaid = '"+RPTxt.getText()+
+                "',Email = '" +ETxt.getText()+
+                "' where TenantID = '"+IDTxt.getText()+"'";
+        Command command = new Command(tableName, query, CommandWord.UPDATE);
 
-        try {
-            rs.updateString("ID", ID);
-            rs.updateString("FirstName", first);
-            rs.updateString("lastName", last);
-            rs.updateString("phonenumber", phone);
-            rs.updateString("Email", email);
-            rs.updateRow();
-          //  JOptionPane.showMessageDialog(Tenant.this, "Updated");
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
+        connectToServer();
+        getStreams();
+        output.writeObject(command);
+        // I think after we write for update we don't need anything else from server so we can close connection
+        } catch (Exception ex){
+            ex.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        try {
-            String sql = "update tenants set TenantID = '" + IDTxt.getText()+
-                         "' ,LastName = '"+LNTxt.getText()+
-                         "' ,FirstName = '"+FNTxt.getText()+
-                         "' ,PhoneNumber =" + " '"+PNTxt.getText()+
-                         "',RentPaid = '"+RPTxt.getText()+
-                         "',Email = '" +ETxt.getText()+
-                         "' where TenantID = '"+IDTxt.getText()+"'";
-            Statement update = con.createStatement();
-            update.executeUpdate(sql);
-        }
-        catch(SQLException E) {
-            E.printStackTrace();
-        }
-        selectional();
+         selectional();
     }
 
     private void RPTxtActionPerformed(java.awt.event.ActionEvent evt) {
@@ -382,9 +401,6 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
             PreparedStatement search = con.prepareStatement (query);
             search.setString(1, SFTxt.getText());
             ResultSet rs = search.executeQuery();
-
-
-            //Tenants2.setModel(DbUtils.resultSetToTableModel(rs));
 
         }
         catch (SQLException E) {

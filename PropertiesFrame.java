@@ -28,9 +28,11 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     private ResultSet rs = null;
 
     //Our objects for connection to server
-    Socket client;
-    ObjectOutputStream output;
-    ObjectInputStream input;
+    private Socket client;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
+    private String host = "127.0.0.1";
+    private String tableName = "Properties";
 
     public PropertiesFrame() {
         initComponents();
@@ -56,13 +58,22 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
 
     }
     private void connectToServer() throws IOException {
-        client = new Socket("127.0.0.1", 12345);
+        client = new Socket(host , 12345);
     }
+
+    /**
+     * Gets the streams that we'll communicate between server and client over
+     * @throws IOException
+     */
     private void getStreams() throws IOException{
         output = new ObjectOutputStream(client.getOutputStream());
         output.flush();
         input = new ObjectInputStream(client.getInputStream());
     }
+
+    /**
+     * Once we're finished with the connection of the server then we can just close all the connections that we've
+     */
     private void closeConnection(){
         try {
             output.close();
@@ -524,7 +535,31 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         String availDate = AvailDateTxt.getText();
         //we don't have a field for full description right now
         String tenantID = TenantIDTxt.getText();
+        try {
+            String sql = "update properties set propertyID = " + PropIDTxt.getText() +
+                    " ,Address = '" + AddressTxt.getText() +
+                    "' ,Bedrooms = '" + BedTxt.getText() +
+                    "' ,bathrooms = '" + BathTxt.getText() +
+                    "' ,AdditionalInfo = '" + AdditionalTxt.getText() +
+                    "' ,RentAmount = '" + RentAmountTxt.getText() +
+                    "' ,RentType = '" + TermsTxt.getText() +
+                    "' ,Available  = '" + AvailabilityTxt.getText() +
+                    "' ,AvailableDate = '" + AvailDateTxt.getText() +
+                    "' ,tenantID = '" + TenantIDTxt.getText() +
+                    "' where propertyID = '" + PropIDTxt.getText() + "'";
 
+            Command command = new Command(tableName, sql, CommandWord.UPDATE);
+
+            connectToServer();
+            getStreams();
+            output.writeObject(command);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        selectional();
+
+        ///////Marked for removal old sql
+        /*
         try {
             rs.updateString("PropertyID", propertyID);
             rs.updateString("Address", address);
@@ -538,24 +573,11 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             rs.updateString("tenantId", tenantID);
             rs.updateRow();
             //JOptionPane.showMessageDialog(Tenant.this, "Updated");
-        } catch (SQLException err) {
+        } catch (Exception err) {
             System.out.println(err.getMessage());
         }
         try {
-            //marked for removal
-
-            String sql = "update properties set propertyID = " + PropIDTxt.getText() +
-                         " ,Address = '" + AddressTxt.getText() +
-                         "' ,Bedrooms = '" + BedTxt.getText() +
-                         "' ,bathrooms = '" + BathTxt.getText() +
-                         "' ,AdditionalInfo = '" + AdditionalTxt.getText() +
-                         "' ,RentAmount = '" + RentAmountTxt.getText() +
-                         "' ,RentType = '" +  TermsTxt.getText() +
-                         "' ,Available  = '" + AvailabilityTxt.getText() +
-                         "' ,AvailableDate = '" + AvailDateTxt.getText() +
-                         "' ,tenantID = '" + TenantIDTxt.getText() +
-                         "' where propertyID = '" + PropIDTxt.getText() + "'";
-
+            //marked for removal old sql commands
             Statement update = con.createStatement();
             update.executeUpdate(sql);
 
@@ -563,6 +585,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             E.printStackTrace();
         }
         selectional();
+        */
     }
 
     private void rentTxtActionPerformed(java.awt.event.ActionEvent evt) {

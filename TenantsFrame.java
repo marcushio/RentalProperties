@@ -310,14 +310,11 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             Tenant newTenant = new Tenant();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY/MM/DD");
-            LocalDate localDate = LocalDate.parse(RPTxt.getText(), formatter);
-
             newTenant.setIdNumber(IDTxt.getText());
             newTenant.setFirstName(FNTxt.getText());
             newTenant.setLastName(LNTxt.getText());
             newTenant.setCellphone(PNTxt.getText());
-            newTenant.setRentalPaid(localDate);
+            newTenant.setRentalPaid(LocalDate.parse(RPTxt.getText()));
             newTenant.setEmail(ETxt.getText());
 
             Command command = new Command(tableName, newTenant, CommandWord.ADD);

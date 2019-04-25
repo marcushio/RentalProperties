@@ -41,6 +41,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class TenantsFrame extends javax.swing.JInternalFrame{
     private Connection con = null;
@@ -316,21 +317,22 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            String ID = IDTxt.getText();
-            String LastName = LNTxt.getText();
-            String FirstName = FNTxt.getText();
-            String PhoneNumber = PNTxt.getText();
-            String RentPaid = RPTxt.getText();
-            String Email = ETxt.getText();
-            PreparedStatement add = con.prepareStatement("insert Into Tenants values (?,?,?,?,?,?)");
-            add.setString(1, ID);
-            add.setString(2, FirstName);
-            add.setString(3, LastName);
-            add.setString(4, PhoneNumber);
-            add.setDate(5, java.sql.Date.valueOf(RentPaid));
-            add.setString(6,Email);
-            int row = add.executeUpdate(); //we don't update so saving to int row might not be necessary
-        } catch (SQLException E) {
+            Tenant newTenant = new Tenant();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY/MM/DD");
+            LocalDate localDate = LocalDate.parse(RPTxt.getText(), formatter);
+
+            newTenant.setIdNumber(IDTxt.getText());
+            newTenant.setFirstName(FNTxt.getText());
+            newTenant.setLastName(LNTxt.getText());
+            newTenant.setCellphone(PNTxt.getText());
+            newTenant.setRentalPaid(localDate);
+            newTenant.setEmail(ETxt.getText());
+
+            Command command = new Command(tableName, newTenant, CommandWord.ADD);
+            connectToServer();
+            getStreams();
+            output.writeObject(command);
+        } catch (Exception E) {
             E.printStackTrace();
         }
         selectional();

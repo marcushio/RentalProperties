@@ -477,6 +477,8 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             */
         } catch (Exception ex) {
             ex.printStackTrace();
+        } finally {
+            closeConnection();
         }
         selectional();
     }

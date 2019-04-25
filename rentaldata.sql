@@ -14,9 +14,10 @@ CREATE TABLE Properties
 	RentType VARCHAR (10) NOT NULL, 
 	Available VARCHAR (4) NOT NULL, 
 	AvailableDate DATE NOT NULL,
-	FOREIGN KEY (TenantID) REFERENCES Properties(TenantID),
+	TenantID VARCHAR(10),
 	Description VARCHAR (255),
-	 PRIMARY KEY (PropertyID)
+	 PRIMARY KEY (PropertyID),
+	 FOREIGN KEY (TenantID) REFERENCES Tenants(TenantID)
 );
 
 

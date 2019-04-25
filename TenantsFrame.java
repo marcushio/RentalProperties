@@ -34,25 +34,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class TenantsFrame extends javax.swing.JInternalFrame{
-    private Connection con = null;
-    private Statement st = null;
-    private ResultSet rs = null;
+
     private String tableName = "Tenants";
     private String host = "127.0.0.1";
 
-    Socket client;
-    ObjectOutputStream output;
-    ObjectInputStream input;
+    private Socket client;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
 
     public TenantsFrame() {
         initComponents();
@@ -396,14 +388,9 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
     private void SFTxtKeyReleased(java.awt.event.KeyEvent evt) {
         try {
 
-            String query = "select * from rentaldata.tenants where LastName =? ";
-            PreparedStatement search = con.prepareStatement (query);
-            search.setString(1, SFTxt.getText());
-            ResultSet rs = search.executeQuery();
-
         }
-        catch (SQLException E) {
-            E.printStackTrace();
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
         selectional();
     }

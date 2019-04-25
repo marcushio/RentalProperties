@@ -53,7 +53,6 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
     ObjectOutputStream output;
     ObjectInputStream input;
 
-
     public TenantsFrame() {
         initComponents();
         selectional();
@@ -63,7 +62,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
         try {
             connectToServer();
             getStreams();
-            Command command = new Command("Properties", "SELECT * FROM Properties", CommandWord.RETRIEVE );
+            Command command = new Command(tableName, "SELECT * FROM Tenants", CommandWord.RETRIEVE );
             output.writeObject(command);
             TableModel model  = (TableModel) input.readObject();
             Tenants2.setModel(model);
@@ -347,16 +346,14 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            String sql = "Delete from Tenants where TenantID = '" + IDTxt.getText() + "'";
-            Statement add = con.createStatement();
-            add.executeUpdate(sql);
-            IDTxt.setText("");
-            LNTxt.setText("");
-            FNTxt.setText("");
-            PNTxt.setText("");
-            RPTxt.setText("");
-            ETxt.setText("");
-        } catch (SQLException E) {
+            String sql = sql = "Delete from Tenants where TenantID = '" + IDTxt.getText() + "'";
+            Command command = new Command("Properties", sql, CommandWord.DELETE );
+
+            connectToServer();
+            getStreams();
+            output.writeObject(command);
+
+        } catch (Exception E) {
             E.printStackTrace();
         }
         selectional();

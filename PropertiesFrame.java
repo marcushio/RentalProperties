@@ -490,7 +490,6 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
     }
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
         try {
             String sql = sql = "Delete from Properties where PropertyID = '" + PropIDTxt.getText() + "'";
             Command command = new Command("Properties", sql, CommandWord.DELETE );
@@ -499,6 +498,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             getStreams();
             output.writeObject(command);
 
+            //marked for removal once refactoring is done
             PropIDTxt.setText("");
             AddressTxt.setText("");
             BedTxt.setText("");
@@ -510,7 +510,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
             AvailDateTxt.setText("");
             TenantIDTxt.setText("");
 
-            //marked for removal once refactoring is done
+
             /*
             String sql = "Delete from Properties where PropertyID = '" + PropIDTxt.getText() + "'";
             Statement add = con.createStatement();

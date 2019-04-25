@@ -1,7 +1,7 @@
 
 connect 'jdbc:derby:RentalData;create=true;user=student; password=student';
 
---DROP TABLE Properties;
+DROP TABLE Properties;
 
 CREATE TABLE Properties
 (
@@ -23,9 +23,9 @@ CREATE TABLE Properties
 
 INSERT INTO Properties (PropertyID, Address, Bedrooms,Bathrooms,AdditionalInfo , 
 	RentAmount ,RentType ,Available ,AvailableDate, TenantId ,Description )
-	VALUES ('SABQ111','12 Cactus Dr', 2, 1.5, 'w/d included', 800.00, 'monthly', 'yes', '2019-05-05', '11111',
+	VALUES ('SABQ111','12 Cactus Dr', 2, 1.5, 'w/d included', 800.00, 'monthly', 'yes', '2019-05-05', '111',
 	 'A nice small family residence'),
-	('SABQ112','508 Superstition Dr', 3, 2, 'big yard', 1200.00, 'monthly', 'yes', '2019-05-05', '323232',
+	('SABQ112','508 Superstition Dr', 3, 2, 'big yard', 1200.00, 'monthly', 'yes', '2019-05-05', '112',
 	 'Near golf course');
 
 DROP TABLE Tenants;

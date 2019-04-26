@@ -213,7 +213,15 @@ public class Server {
             ex.printStackTrace();
         }
     }
-
+    private void searchProperties(Command command) {
+		// TODO Auto-generated method stub
+    	try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
+            String sql = (String) command.getDataObject();
+            Statement search = connection.createStatement();
+            search.executeUpdate(sql);
+        } catch (SQLException ex){
+            ex.printStackTrace();
+    }
     private void closeConnection(){
         try {
             output.close();

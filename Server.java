@@ -34,7 +34,7 @@ public class Server {
     private static final String url = "jdbc:derby:RentalData";
     private static final String user = "student";
     private static final String password = "student";
-
+/*
     public Server(){
         try {
             dbConnection = DriverManager.getConnection(url, user, password);
@@ -43,8 +43,11 @@ public class Server {
             ex.printStackTrace();
         }
     }
+    */
+
     public void runServer(){
         try{
+            System.out.println("Server Running...");
             server = new ServerSocket(port, backlog);
             while(true){
                 try{
@@ -57,8 +60,7 @@ public class Server {
                     closeConnection();
                 }
             }
-        } catch (IOException ex){
-            System.out.println("IOException at server socket");
+        } catch (Exception ex){
             ex.printStackTrace();
         }
     }
@@ -114,9 +116,9 @@ public class Server {
         }
     }
     private void retrieveData(Command command){
-        try {
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
             String sql = (String) command.getDataObject();
-            Connection connection = DriverManager.getConnection(url, user, password);
+
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = statement.executeQuery(sql);
             TableModel model = DbUtils.resultSetToTableModel(resultSet);
@@ -130,8 +132,7 @@ public class Server {
      * @param command
      */
     private void addToProperties(Command command){
-        try {
-            Connection dbConnection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student");
+        try (Connection dbConnection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
             String tableName = command.getTableName();
             Property newProperty = (Property) command.getDataObject();
             String sql = "insert into " + tableName + " values (?,?,?,?,?,?,?,?,?,?,?)";
@@ -160,10 +161,10 @@ public class Server {
     }
 
     private void addToTenants(Command command){
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student");
+        try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
+
             Tenant newTenant = (Tenant) command.getDataObject();
-            PreparedStatement add = dbConnection.prepareStatement("insert into Tenants values (?,?,?,?,?,?)");
+            PreparedStatement add = connection.prepareStatement("insert into Tenants values (?,?,?,?,?,?)");
             add.setString(1, newTenant.getIdNumber());
             add.setString(2, newTenant.getFirstName());
             add.setString(3, newTenant.getLastName());
@@ -183,7 +184,7 @@ public class Server {
     }
 
     private void deleteData(Command command){
-        try( Connection connection = DriverManager.getConnection(url, user, password) ) {
+        try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
             String sql = (String) command.getDataObject();
             Statement delete = connection.createStatement();
             delete.executeUpdate(sql);
@@ -193,35 +194,22 @@ public class Server {
 
     }
 	public void updateProperties(Command command) {
-		try( Connection connection = DriverManager.getConnection(url, user, password) ) {
+		try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
             String sql = (String) command.getDataObject();
-
-            PreparedStatement update = dbConnection.prepareStatement(sql);
-            update.executeUpdate(sql);
-            /*
             Statement update = connection.createStatement();
-            String sql = "update rentaldata.Properties set PropertyID = '" + newProperty.getPropertyID()+
-                    "' ,Address = '"+newProperty.getAddress()+
-                    "' ,Bedrooms = '"+newProperty.getBedrooms()+
-                    "' ,Bathrooms = '" +newProperty.getBathrooms() +
-                    "' ,Info = '"+newProperty.getInfo()+
-                    "' ,Cost = '"+newProperty.getCost()+
-                    "' ,Terms = '"+newProperty.getTerms()+
-                    "' ,Available = '" +newProperty.getAvailable()+
-                    "' ,DateAvailable = '"+newProperty.getDateAvailable()+
-                    "' ,TenantID = '"+newProperty.getTenantID()+
-                    "' ,Description = '"+newProperty.getFullDescription()+
-                    "' where ID = "+newProperty.getPropertyID()+"";
-                    */
+            update.executeUpdate(sql);
+       
         } catch (SQLException ex){
             ex.printStackTrace();
         }
 	}
 
 	public void updateTenants(Command command) {
-		try {
+		try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
             String sql = (String) command.getDataObject();
-            PreparedStatement update = dbConnection.prepareStatement(sql);
+
+            //PreparedStatement update = connection.prepareStatement(sql);
+            Statement update = connection.createStatement();
             update.executeUpdate(sql);
         } catch (SQLException ex){
             ex.printStackTrace();
@@ -232,18 +220,16 @@ public class Server {
             output.close();
             input.close();
             clientConnection.close();
-            dbConnection.close();
+            //dbConnection.close();
         } catch (IOException ex){
             System.out.println("Closed Connections");
-        } catch (SQLException ex){
-            System.out.println("Can't d/c from db");
         }
     }
 
     private TableModel makeModel(String sqlQuery){
         ResultSet resultSet = null;
-        try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")) {
-            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        try  {
+            Statement statement = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             resultSet = statement.executeQuery(sqlQuery);
         } catch ( SQLException ex){
             ex.printStackTrace();

@@ -44,7 +44,6 @@ public class BillingFrame extends JInternalFrame {
                 connectToServer();
                 getStreams();
                 String sql = "SELECT * FROM Tenants WHERE RentPaid < '" + getDueDate() + "'";
-                System.out.println("Here is our sql command: " + sql);
                 Command command = new Command("Tenants", sql, CommandWord.RETRIEVE );
                 output.writeObject(command);
                 TableModel model  = (TableModel) input.readObject();

@@ -111,7 +111,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         addButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        searchButton = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         AvailDateTxt = new javax.swing.JTextField();
 
@@ -411,7 +411,7 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         try {
             String sql = "select * from Properties where TenantId =? ";

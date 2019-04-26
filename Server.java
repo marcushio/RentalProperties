@@ -198,23 +198,22 @@ public class Server {
             String sql = (String) command.getDataObject();
             Statement update = connection.createStatement();
             update.executeUpdate(sql);
-       
+
         } catch (SQLException ex){
             ex.printStackTrace();
         }
 	}
 
 	public void updateTenants(Command command) {
-		try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
+        try (Connection connection = DriverManager.getConnection("jdbc:derby:rentaldata", "student", "student")){
             String sql = (String) command.getDataObject();
-
-            //PreparedStatement update = connection.prepareStatement(sql);
             Statement update = connection.createStatement();
             update.executeUpdate(sql);
         } catch (SQLException ex){
             ex.printStackTrace();
         }
-	}
+    }
+
     private void closeConnection(){
         try {
             output.close();

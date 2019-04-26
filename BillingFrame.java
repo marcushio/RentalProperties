@@ -1,8 +1,17 @@
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * The frame that displays all the data related to the billing data. Works by querying DB based on dates that are past
@@ -15,10 +24,12 @@ import java.sql.*;
  */
 
 public class BillingFrame extends JInternalFrame {
+    private String host = "127.0.0.1";
 
-    private Connection con = null;
-    private Statement st = null;
-    private ResultSet rs = null;
+    private Socket client;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
+
     /**
      * Creates new form BillingFrame
      */
@@ -30,19 +41,49 @@ public class BillingFrame extends JInternalFrame {
     public void selectional(){
 
             try {
-                con = DriverManager.getConnection("jdbc:derby:RentalData", "student", "student");
-                st = con.createStatement();
-                rs = st.executeQuery("SELECT * FROM Tenants WHERE RentPaid < '2019-04-01'");
-
-                // rs = st.executeQuery("SELECT * FROM Properties JOIN Tenants WHERE Properties.TenantID = Tenants.TenantID AND RentPaid > '2019-04-01' ");
-                jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-            } catch (SQLException e) {
-
+                connectToServer();
+                getStreams();
+                String sql = "SELECT * FROM Tenants WHERE RentPaid < '" + getDueDate() + "'";
+                System.out.println("Here is our sql command: " + sql);
+                Command command = new Command("Tenants", sql, CommandWord.RETRIEVE );
+                output.writeObject(command);
+                TableModel model  = (TableModel) input.readObject();
+                billingTable.setModel(model);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
     }
 
+    private void connectToServer() throws IOException {
+        client = new Socket(host , 12345);
+    }
+
+    private void getStreams() throws IOException{
+        output = new ObjectOutputStream(client.getOutputStream());
+        output.flush();
+        input = new ObjectInputStream(client.getInputStream());
+    }
+
+    /**
+     * Once we're finished with the connection of the server then we can just close all the connections that we've
+     */
+    private void closeConnection(){
+        try {
+            output.close();
+            input.close();
+            client.close();
+        } catch (Exception ex){
+            //can we print error in JFrame?
+            ex.printStackTrace();
+        }
+    }
+
+    private LocalDate getDueDate(){
+        Calendar calendar = new GregorianCalendar() ;
+        int month = calendar.get(Calendar.MONTH) + 1; // 0=January 11=December so we add 1;
+        LocalDate dueDate = LocalDate.of(2019, month, 1);
+        return dueDate;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,53 +94,37 @@ public class BillingFrame extends JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        billingTable = new javax.swing.JTable();
         paidButton = new javax.swing.JButton();
-        billIDtxt = new javax.swing.JTextField();
-        billIDLabel = new javax.swing.JLabel();
-        propertyIDLabel = new javax.swing.JLabel();
-        propertyIDtxt = new javax.swing.JTextField();
         tenantIDLabel = new javax.swing.JLabel();
-        dueDateLabel = new javax.swing.JLabel();
-        actionTakenLabel = new javax.swing.JLabel();
         tenantIDtxt = new javax.swing.JTextField();
-        dueDatetxt = new javax.swing.JTextField();
-        actionTakentxt = new javax.swing.JTextField();
         updateButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        billingTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null}
+                        {null, null, null, null, null, null},
+                        {null, null, null, null, null, null},
+                        {null, null, null, null, null, null},
+                        {null, null, null, null, null, null}
                 },
                 new String [] {
-                        "Title 1", "Title 2", "Title 3", "Title 4"
+                        "TenantID", "LastName", "FirstName", "Phone", "PaidDate", "Email"
                 }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(billingTable);
 
-        paidButton.setText("Paid");
+        paidButton.setText("Pay in Full");
         paidButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paidButtonActionPerformed(evt);
             }
         });
 
-        billIDLabel.setText("Bill ID");
-
-        propertyIDLabel.setText("PropertyID");
-
         tenantIDLabel.setText("TenantID");
 
-        dueDateLabel.setText("Due Date");
-
-        actionTakenLabel.setText("ActionTaken");
-
-        updateButton.setText("Update");
+        updateButton.setText("Refresh Table");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
@@ -111,30 +136,21 @@ public class BillingFrame extends JInternalFrame {
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(billIDLabel)
-                                                        .addComponent(propertyIDLabel)
-                                                        .addComponent(tenantIDLabel)
-                                                        .addComponent(dueDateLabel)
-                                                        .addComponent(actionTakenLabel)
-                                                        .addComponent(updateButton))
-                                                .addGap(22, 22, 22)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(billIDtxt)
-                                                        .addComponent(tenantIDtxt)
-                                                        .addComponent(propertyIDtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(dueDatetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(actionTakentxt, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
-                                                .addGap(0, 183, Short.MAX_VALUE)))
+                                .addContainerGap()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
                                 .addContainerGap())
                         .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(updateButton)
+                                .addGap(22, 22, 22))
+                        .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(paidButton)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(paidButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(tenantIDLabel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(tenantIDtxt)))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -142,31 +158,14 @@ public class BillingFrame extends JInternalFrame {
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(billIDtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(billIDLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(propertyIDLabel)
-                                        .addComponent(propertyIDtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(paidButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(tenantIDLabel)
                                         .addComponent(tenantIDtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(dueDateLabel)
-                                        .addComponent(dueDatetxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(actionTakenLabel)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(updateButton))
-                                        .addComponent(actionTakentxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(paidButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                                .addComponent(updateButton)
                                 .addContainerGap())
         );
 
@@ -174,7 +173,18 @@ public class BillingFrame extends JInternalFrame {
     }// </editor-fold>
 
     private void paidButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        try {
+            String query = "update tenants set RentPaid = '" + LocalDate.now() +
+                    "' where TenantID = '" + tenantIDtxt.getText() + "'";
+            Command command = new Command("Tenants", query, CommandWord.UPDATE);
+
+            connectToServer();
+            getStreams();
+            output.writeObject(command);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        selectional();
     }
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,17 +227,9 @@ public class BillingFrame extends JInternalFrame {
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JLabel actionTakenLabel;
-    private javax.swing.JTextField actionTakentxt;
-    private javax.swing.JLabel billIDLabel;
-    private javax.swing.JTextField billIDtxt;
-    private javax.swing.JLabel dueDateLabel;
-    private javax.swing.JTextField dueDatetxt;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable billingTable;
     private javax.swing.JButton paidButton;
-    private javax.swing.JLabel propertyIDLabel;
-    private javax.swing.JTextField propertyIDtxt;
     private javax.swing.JLabel tenantIDLabel;
     private javax.swing.JTextField tenantIDtxt;
     private javax.swing.JButton updateButton;

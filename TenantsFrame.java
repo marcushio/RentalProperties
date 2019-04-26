@@ -365,7 +365,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
         connectToServer();
         getStreams();
         output.writeObject(command);
-        // I think after we write for update we don't need anything else from server so we can close connection
+
         } catch (Exception ex){
             ex.printStackTrace();
         } finally {

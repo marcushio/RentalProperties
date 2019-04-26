@@ -413,6 +413,16 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        try {
+            String sql = "select * from Properties where TenantId =? ";
+            Command search = new Command(tableName, sql, CommandWord.SEARCH);
+             connectToServer();
+            getStreams();
+            output.writeObject(search);
+        } catch (Exception E) {
+            E.printStackTrace();
+        }
+        selectional();
     }
 
     private void PropIDTxtActionPerformed(java.awt.event.ActionEvent evt) {

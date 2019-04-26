@@ -15,18 +15,15 @@ public class HomeFrame extends JFrame {
     BillingFrame billingFrame;
 
     public HomeFrame(){
-        /**********
-         * the non functional frames were commented out to not break the functional frames
-         */
         //create and add components to our tabs
         tabs = new JTabbedPane();
         tenantsFrame = new TenantsFrame();
         propertiesFrame = new PropertiesFrame();
-        //billingFrame = new BillingFrame(); since billing isn't totally up yet
+        billingFrame = new BillingFrame();
 
         tabs.addTab("Tenants", tenantsFrame );
         tabs.addTab("Properties", propertiesFrame);
-        //tabs.addTab("Billing", billingFrame);
+        tabs.addTab("Billing", billingFrame);
         add(tabs);
         pack();
         setVisible(true);

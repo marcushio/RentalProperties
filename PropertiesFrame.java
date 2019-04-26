@@ -538,13 +538,13 @@ public class PropertiesFrame extends javax.swing.JInternalFrame {
         //we don't have a field for full description right now
         String tenantID = TenantIDTxt.getText();
         try {
-            String sql = "update properties set propertyID = " + PropIDTxt.getText() +
-                    " ,Address = '" + AddressTxt.getText() +
-                    "' ,Bedrooms = '" + BedTxt.getText() +
-                    "' ,bathrooms = '" + BathTxt.getText() +
-                    "' ,AdditionalInfo = '" + AdditionalTxt.getText() +
-                    "' ,RentAmount = '" + RentAmountTxt.getText() +
-                    "' ,RentType = '" + TermsTxt.getText() +
+            String sql = "UPDATE properties SET propertyID = '" + PropIDTxt.getText() +
+                    "' ,Address = '" + AddressTxt.getText() +
+                    "' ,Bedrooms = " + Integer.parseInt(BedTxt.getText()) +
+                    " ,bathrooms = " + BathTxt.getText() +
+                    " ,AdditionalInfo = '" + AdditionalTxt.getText() +
+                    "' ,RentAmount = " + RentAmountTxt.getText() +
+                    " ,RentType = '" + TermsTxt.getText() +
                     "' ,Available  = '" + AvailabilityTxt.getText() +
                     "' ,AvailableDate = '" + AvailDateTxt.getText() +
                     "' ,tenantID = '" + TenantIDTxt.getText() +

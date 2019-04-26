@@ -310,14 +310,11 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             Tenant newTenant = new Tenant();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY/MM/DD");
-            LocalDate localDate = LocalDate.parse(RPTxt.getText(), formatter);
-
             newTenant.setIdNumber(IDTxt.getText());
             newTenant.setFirstName(FNTxt.getText());
             newTenant.setLastName(LNTxt.getText());
             newTenant.setCellphone(PNTxt.getText());
-            newTenant.setRentalPaid(localDate);
+            newTenant.setRentalPaid(LocalDate.parse(RPTxt.getText()));
             newTenant.setEmail(ETxt.getText());
 
             Command command = new Command(tableName, newTenant, CommandWord.ADD);
@@ -368,7 +365,7 @@ public class TenantsFrame extends javax.swing.JInternalFrame{
         connectToServer();
         getStreams();
         output.writeObject(command);
-        // I think after we write for update we don't need anything else from server so we can close connection
+
         } catch (Exception ex){
             ex.printStackTrace();
         } finally {
